@@ -1,0 +1,48 @@
+.ascii-wave-wrapper {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 2000px;
+  overflow: visible;
+}
+
+.wave-container {
+  position: relative;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  /* Sea surface perspective tilt */
+  transform: rotateX(65deg) rotateZ(20deg) rotateY(0deg);
+}
+
+.wave-particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #3b82f6;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: wave-color-cycle 12s linear infinite;
+}
+
+@keyframes wave-color-cycle {
+  0% { color: #3b82f6; }
+  33% { color: #a855f7; }
+  66% { color: #2dd4bf; }
+  100% { color: #3b82f6; }
+}
+
+@media (max-width: 992px) {
+  .ascii-wave-wrapper {
+    width: 100vw;
+    height: 400px;
+    transform: scale(0.7);
+  }
+}

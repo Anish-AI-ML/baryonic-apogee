@@ -1,0 +1,126 @@
+.anve-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.anve-logo svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Base Paths (Static Visibility for Navbar/Footer) */
+.logo-swoosh-front, .logo-swoosh-back, .line-draw {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 0;
+}
+.text-an, .text-ve, .text-tech {
+  opacity: 1;
+}
+
+/* ------------------------------------------- */
+/* ANIMATE-INTRO SEQUENCE (For Preloader Only) */
+/* ------------------------------------------- */
+.animate-intro .logo-swoosh-front, 
+.animate-intro .logo-swoosh-back, 
+.animate-intro .line-draw {
+  stroke-dashoffset: 200;
+}
+
+/* 1. The 'A' pops in first */
+.animate-intro .logo-leg-left {
+  opacity: 0;
+  animation: logo-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulse-fill-left 3s infinite alternate ease-in-out;
+  transform-origin: 30% 50%;
+}
+
+.animate-intro .logo-leg-right {
+  opacity: 0;
+  animation: logo-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards, pulse-fill-right 3s infinite alternate ease-in-out 1.5s;
+  transform-origin: 70% 50%;
+}
+
+@keyframes logo-pop {
+  0% { opacity: 0; transform: scale(0.6) translateY(20px); filter: blur(5px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+
+/* 2. The circle (swoosh) completes next */
+.animate-intro .logo-swoosh-front {
+  animation: swoosh-draw 1.5s cubic-bezier(0.2, 1, 0.3, 1) 0.8s forwards;
+}
+
+.animate-intro .logo-swoosh-back {
+  animation: swoosh-draw-back 1.5s cubic-bezier(0.2, 1, 0.3, 1) 0.8s forwards;
+}
+
+@keyframes swoosh-draw {
+  0% { stroke-dashoffset: -200; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes swoosh-draw-back {
+  0% { stroke-dashoffset: 200; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* 3. Show "ANVE TECH" name beside it finally */
+.animate-intro .text-an {
+  opacity: 0;
+  animation: text-fade 1s ease 2.3s forwards;
+}
+
+.animate-intro .text-ve {
+  opacity: 0;
+  animation: text-fade 1s ease 2.6s forwards;
+}
+
+.animate-intro .text-tech {
+  opacity: 0;
+  animation: text-fade 1s ease 3.0s forwards;
+}
+
+.animate-intro .line-draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: line-draw 0.8s ease 2.8s forwards;
+}
+
+@keyframes text-fade {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); filter: drop-shadow(0 0 5px rgba(200, 200, 255, 0.2)); }
+}
+
+@keyframes line-draw {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
+
+/* ------------------------------------------- */
+/* Interactive & Continuous States             */
+/* ------------------------------------------- */
+.anve-logo:not(.animate-intro) .logo-leg-left {
+  animation: pulse-fill-left 3s infinite alternate ease-in-out;
+}
+.anve-logo:not(.animate-intro) .logo-leg-right {
+  animation: pulse-fill-right 3s infinite alternate ease-in-out 1.5s;
+}
+
+@keyframes pulse-fill-left {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.25) drop-shadow(0 0 10px rgba(6, 182, 212, 0.5)); }
+}
+
+@keyframes pulse-fill-right {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.25) drop-shadow(0 0 10px rgba(168, 85, 247, 0.5)); }
+}
+
+.anve-logo:hover .logo-swoosh-front,
+.anve-logo:hover .logo-swoosh-back {
+  filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.9));
+  transition: filter 0.3s;
+}
