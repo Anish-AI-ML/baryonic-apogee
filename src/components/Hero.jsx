@@ -31,9 +31,17 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="hero-title"
           >
-            {Array.isArray(titleWords) ? titleWords.map((word, i) => (
-              <span key={i}><span className="hero-word">{word}</span><br /></span>
-            )) : <span className="hero-word">{titleWords}</span>}
+            {Array.isArray(titleWords) ? titleWords.map((word, i) => {
+              const isLast = i === titleWords.length - 1;
+              return (
+                <span key={i}>
+                  <span className={`hero-word ${isLast ? 'premium-word-highlight' : 'premium-word-base'}`}>
+                    {word}
+                  </span>
+                  <br />
+                </span>
+              );
+            }) : <span className="hero-word premium-word-highlight">{titleWords}</span>}
           </motion.h1>
 
           <motion.p

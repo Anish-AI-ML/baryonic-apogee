@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg-dark: #000000;
+  --bg-dark: #0a0205;
   --text-primary: #ffffff;
   --text-muted: #a1a1aa;
   --border-color: rgba(255, 255, 255, 0.1);
@@ -28,6 +28,32 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Form Dropdown Options (Service Lists) */
+select option {
+  background-color: #111111;
+  color: #ffffff;
+  padding: 0.5rem;
+}
+
+/* Global Scrollbar (Table Slide) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a855f7;
 }
 
 a {
@@ -109,7 +135,7 @@ a {
   left: 50%;
   width: 800px;
   height: 800px;
-  background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, rgba(236, 72, 153, 0.05) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(219, 39, 119, 0.06) 40%, transparent 70%);
   transform: translate(-50%, -50%);
   filter: blur(80px);
   animation: bg-pulse 10s ease-in-out infinite alternate;

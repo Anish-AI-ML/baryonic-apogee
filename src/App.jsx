@@ -15,21 +15,11 @@ import Terms from './components/Terms';
 import AdminPanel from './components/AdminPanel';
 import UserAuth from './components/UserAuth';
 import UserDashboard from './components/UserDashboard';
-import { WorksProvider, useWorks } from './context/WorksContext';
+import { WorksProvider } from './context/WorksContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 const AppContent = ({ scrolled, currentPage }) => {
-  const { incrementVisitors } = useWorks();
   const { currentUser } = useAuth();
-
-  useEffect(() => {
-    // Basic visitor tracking logic (runs once per session load)
-    const sessionVisited = sessionStorage.getItem('anve_tech_visited');
-    if (!sessionVisited) {
-      incrementVisitors();
-      sessionStorage.setItem('anve_tech_visited', 'true');
-    }
-  }, []);
 
   return (
     <div className="app-container">
@@ -69,27 +59,49 @@ function App() {
   const [showPreloader, setShowPreloader] = useState(true);
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash === '#privacy') setCurrentPage('privacy');
-      else if (hash === '#terms') setCurrentPage('terms');
-      else if (hash === '#admin') setCurrentPage('admin');
-      else if (hash === '#login' || hash === '#signup') setCurrentPage('login');
-      else if (hash === '#dashboard') setCurrentPage('dashboard');
-      else setCurrentPage('home');
-    };
-    
-    handleHashChange(); // Initial check
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      const search = window.location.search;
+      
+      // Instantly intercept Supabase recovery tokens from emails before anything else
+      // DO NOT OVERWRITE THE HASH here, or Supabase Auth will lose the access_token before parsing it!
+      if (hash.includes('type=recovery') || search.includes('type=recovery')) {
+        setCurrentPage('login');
+        return;
+      }
+
+      if (hash === '#privacy') setCurrentPage('privacy');
+      else if (hash === '#terms') setCurrentPage('terms');
+      else if (hash === '#admin') setCurrentPage('admin');
+      else if (hash === '#login' || hash === '#signup' || hash === '#reset') setCurrentPage('login');
+      else if (hash === '#dashboard') setCurrentPage('dashboard');
+      else {
+        setCurrentPage('home');
+        // Force scroll jump after React mounts the Home elements 
+        // to fix broken anchor links when navigating from other pages (e.g. Privacy -> #services)
+        if (['#services', '#about', '#how-it-works', '#projects', '#why', '#contact', '#home'].includes(hash)) {
+          setTimeout(() => {
+            const el = document.getElementById(hash === '#home' ? 'home' : hash.substring(1));
+            // Ensure we smoothly jump, catching misfires from the browser's native initial jump that occurs before page render
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 100); 
+        } else if (hash === '') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+    };
+    
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   return (

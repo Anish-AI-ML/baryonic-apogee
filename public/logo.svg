@@ -1,0 +1,18 @@
+<svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="anve-cyan" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="50%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#2dd4bf" />
+    </linearGradient>
+    <linearGradient id="anve-purple" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4338ca" />
+      <stop offset="50%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(5, 5) scale(0.9)">
+    <polygon points="50,5 85,85 60,85 35,25" fill="url(#anve-purple)" />
+    <polygon points="40,5 5,85 30,85 55,25" fill="url(#anve-cyan)" />
+  </g>
+</svg>

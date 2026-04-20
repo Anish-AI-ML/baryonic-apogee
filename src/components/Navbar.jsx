@@ -59,23 +59,37 @@ const Navbar = ({ scrolled }) => {
           <a href="#how-it-works" className={`nav-link ${activeSection === 'how-it-works' ? 'active' : ''}`}>{t('nav.howItWorks')}</a>
           <a href="#projects" className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`}>{t('nav.projects')}</a>
           <a href="#why" className={`nav-link ${activeSection === 'why' ? 'active' : ''}`}>{t('nav.features')}</a>
-          {(activeSection !== '' && activeSection !== 'home') && (
-            <a 
-              href="#contact" 
-              className={`nav-link contact-nav-link ${activeSection === 'contact' ? 'active glow' : ''}`}
-            >
-              {t('nav.contact')}
-            </a>
-          )}
         </div>
 
         <div className="desktop-nav">
-          <div className="auth-nav-group">
-            {currentUser && (
-               <a href="#dashboard" className={`nav-link dashboard-nav-pill ${activeSection === 'dashboard' ? 'active' : ''}`}>
-                 Dashboard
-               </a>
+          <AnimatePresence>
+            {scrolled && (
+              <motion.a 
+                href="#contact" 
+                initial={{ opacity: 0, scale: 0.9, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.9, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="btn btn-white"
+                style={{ padding: '0.6rem 1.5rem', fontSize: '0.9rem', borderRadius: '100px' }}
+              >
+                {t('nav.contact')}
+              </motion.a>
             )}
+          </AnimatePresence>
+          <div className="auth-nav-group">
+             {currentUser && (
+               <>
+                 {currentUser.email === 'anvetechnologies@gmail.com' && (
+                   <a href="#admin" className="nav-link admin-nav-pill">
+                     Admin Panel
+                   </a>
+                 )}
+                 <a href="#dashboard" className={`nav-link dashboard-nav-pill ${activeSection === 'dashboard' ? 'active' : ''}`}>
+                   Dashboard
+                 </a>
+               </>
+             )}
             {currentUser ? (
                <a href="#dashboard" className="user-profile-prominent">
                 <span className="user-name-nav"><User size={16} /> {currentUser.name}</span>
@@ -117,15 +131,6 @@ const Navbar = ({ scrolled }) => {
               <a href="#how-it-works" onClick={() => setIsMobileMenuOpen(false)} className={`mobile-nav-link ${activeSection === 'how-it-works' ? 'active' : ''}`}>{t('nav.howItWorks')}</a>
               <a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className={`mobile-nav-link ${activeSection === 'projects' ? 'active' : ''}`}>{t('nav.projects')}</a>
               <a href="#why" onClick={() => setIsMobileMenuOpen(false)} className={`mobile-nav-link ${activeSection === 'why' ? 'active' : ''}`}>{t('nav.features')}</a>
-              {(activeSection !== '' && activeSection !== 'home') && (
-                <a 
-                  href="#contact" 
-                  onClick={() => setIsMobileMenuOpen(false)} 
-                  className={`mobile-nav-link ${activeSection === 'contact' ? 'active glow' : ''}`}
-                >
-                  {t('nav.contact')}
-                </a>
-              )}
               
               <div className="mobile-auth-actions">
                 {currentUser ? (

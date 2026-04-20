@@ -45,8 +45,8 @@
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .service-card {
@@ -56,7 +56,7 @@
 
 /* Inner wrapper for scaling */
 .service-card-inner {
-  padding: 3rem 2.5rem;
+  padding: 2.25rem 2rem;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -74,10 +74,10 @@
 }
 
 .service-card:hover .service-card-inner {
-  transform: scale(1.08) translateY(-8px);
+  transform: scale(1.03) translateY(-4px);
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 /* Unique animated backgrounds */
@@ -109,9 +109,9 @@
 }
 
 .service-card:hover .service-card-inner::before {
-  opacity: 0.6;
-  /* bright glow on hover */
-  transform: translateZ(-20px) scale(1.05);
+  opacity: 0.2;
+  /* subtle glow on hover */
+  transform: translateZ(-20px) scale(1.03);
 }
 
 /* Specific gradients according to content */

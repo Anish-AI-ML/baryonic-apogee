@@ -37,15 +37,21 @@
 
 .center-nav {
   display: none;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 @media (min-width: 992px) {
   .center-nav {
     display: flex;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-content: center;
+    flex: 1;
+    margin: 0 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .center-nav {
+    gap: 2.5rem;
   }
 }
 

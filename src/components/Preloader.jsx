@@ -10,8 +10,8 @@ const Preloader = ({ onFinish }) => {
     // Show splash for longer to fit the full sequential animation
     const timer = setTimeout(() => {
       setExit(true);
-      setTimeout(onFinish, 800); // 800ms exit animation
-    }, 4200); // 4.2 seconds allows the A -> Swoosh -> Text sequence
+      setTimeout(onFinish, 400); // 400ms exit animation
+    }, 1800); // 1.8 seconds max allowing intro animation to finish
     return () => clearTimeout(timer);
   }, [onFinish]);
 
@@ -22,7 +22,7 @@ const Preloader = ({ onFinish }) => {
           className="preloader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
         >
           <div className="preloader-logo">
             <Logo className="animate-intro" />

@@ -10,10 +10,10 @@ const Footer = () => {
     <footer className="footer-section">
       <div className="container footer-container">
         <div className="footer-top">
-          
+
           <div className="footer-brand">
             <a href="#home" className="footer-logo" style={{ textDecoration: 'none', display: 'block' }}>
-               <Logo style={{ height: '36px', width: 'auto' }} />
+              <Logo style={{ height: '36px', width: 'auto' }} />
             </a>
             <p className="footer-desc">
               {t('footer.desc')}
@@ -35,13 +35,13 @@ const Footer = () => {
               <ul>
                 <li><a href="#projects">{t('nav.projects')}</a></li>
                 <li><a href="#why">{t('nav.features')}</a></li>
-                <li><a href="#contact">{t('nav.services')}</a></li>
+                <li><a href="#contact">{t('nav.contact')}</a></li>
               </ul>
             </div>
             <div className="footer-column">
               <h4>{t('footer.companyTitle')}</h4>
               <ul>
-                <li style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Anve tech Inc.</li>
+                <li style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Anve tech </li>
                 <li style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Chennai, TN</li>
                 <li style={{ color: 'var(--text-muted)' }}>India</li>
               </ul>
@@ -70,7 +70,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} Anve tech Inc. {t('footer.copyright')}</p>
         </div>

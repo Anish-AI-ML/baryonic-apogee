@@ -17,8 +17,8 @@ const Contact = () => {
     addMessage(formData);
 
     const targetEmail = "anvetechnologies@gmail.com";
-    const subject = `New Project Inquiry from ${formData.name}`;
-    const body = `Name: ${formData.name}\nEmail: ${formData.email}\nProject Type: ${formData.serviceType}\n\nProject Details:\n${formData.message}`;
+    const subject = `Inquiry: ${formData.serviceType} from ${formData.name}`;
+    const body = `Hello Anve tech Team,\n\nI am ${formData.name} (${formData.email}) and I am interested in your ${formData.serviceType} services.\n\nPlease get back to me with more details.\n\nBest regards,\n${formData.name}`;
 
     window.location.href = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
@@ -26,7 +26,7 @@ const Contact = () => {
   return (
     <section id="contact" className="contact-section">
       <div className="container">
-        <motion.div 
+        <motion.div
           className="contact-card"
           initial={{ opacity: 0, y: 60, scale: 0.9 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -49,7 +49,7 @@ const Contact = () => {
               </div>
               <div className="info-item">
                 <MapPin className="info-icon" />
-                <span>Chennai, TN, INDIA</span>
+                <span>CHENNAI, TN, INDIA</span>
               </div>
             </div>
           </div>
@@ -92,18 +92,8 @@ const Contact = () => {
                 <option value="Other">{language === 'en' ? "Other" : language === 'ta' ? "மற்றவை" : "अन्य"}</option>
               </select>
             </div>
-            <div className="form-group">
-              <label>{t('contact.form.message')}</label>
-              <textarea
-                rows="4"
-                placeholder={t('chatbot.placeholder')}
-                className="form-input"
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                required
-              ></textarea>
-            </div>
-            <button type="submit" className="btn btn-black submit-btn">
+
+            <button type="submit" className="btn btn-black submit-btn" style={{ marginTop: '1rem' }}>
               {t('contact.form.button')} &nbsp; <Send size={18} />
             </button>
           </form>

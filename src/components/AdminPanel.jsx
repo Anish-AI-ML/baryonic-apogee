@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Briefcase, MessageSquare, LogOut, Plus, Edit2, Trash2, X, Check, Save, Users, Eye, Clock, User as UserIcon, Send, Search } from 'lucide-react';
+import { LayoutDashboard, Briefcase, MessageSquare, LogOut, Plus, Edit2, Trash2, X, Check, Save, Users, Eye, Clock, User as UserIcon, Send, Search, Mail } from 'lucide-react';
 import { useWorks } from '../context/WorksContext';
 import { useAuth } from '../context/AuthContext';
 import Logo from './Logo';
@@ -12,44 +12,10 @@ const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [editingId, setEditingId] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
-  const { projects, addProject, updateProject, deleteProject, messages, addMessage, markMessagesAsRead, deleteMessage, visitorCount } = useWorks();
-  const { users } = useAuth();
-  const [selectedConvoEmail, setSelectedConvoEmail] = useState(null);
-  const chatScrollRef = React.useRef(null);
-
-  // Group messages by user and sort conversations by latest message
-  const groupedMessages = React.useMemo(() => {
-    const groups = messages.reduce((acc, msg) => {
-      const email = msg.userEmail || msg.email;
-      if (!acc[email]) acc[email] = [];
-      acc[email].push(msg);
-      return acc;
-    }, {});
-
-    // Sort messages in each group (oldest to newest for chat)
-    Object.keys(groups).forEach(key => {
-      groups[key].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-    });
-
-    return groups;
-  }, [messages]);
-
-  // Set default selected conversation and mark as read
-  React.useEffect(() => {
-    if (activeTab === 'messages' && !selectedConvoEmail && Object.keys(groupedMessages).length > 0) {
-      setSelectedConvoEmail(Object.keys(groupedMessages)[0]);
-    }
-  }, [activeTab, groupedMessages, selectedConvoEmail]);
-
-  React.useEffect(() => {
-    if (activeTab === 'messages' && selectedConvoEmail) {
-      markMessagesAsRead(selectedConvoEmail, 'admin');
-      // Auto-scroll to bottom
-      if (chatScrollRef.current) {
-        chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
-      }
-    }
-  }, [activeTab, selectedConvoEmail, messages.length]); // Re-run if new messages arrive while viewing
+  const [adminError, setAdminError] = useState(null);
+  const { projects, addProject, updateProject, deleteProject, visitorCount, loading: worksLoading } = useWorks();
+  const { users, currentUser, logout, deleteAccount, refreshUsers } = useAuth();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [formData, setFormData] = useState({
     title: '',
@@ -59,22 +25,14 @@ const AdminPanel = () => {
     image: '/images/modern_website.png'
   });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (password === 'admin123') {
-      setIsAuthenticated(true);
-    } else {
-      alert('Incorrect password!');
-    }
-  };
-
   const resetForm = () => {
-    setFormData({ 
-      title: '', 
-      cat: '', 
-      desc: '', 
-      tech: '', 
-      image: '/images/modern_website.png', 
+    setAdminError(null);
+    setFormData({
+      title: '',
+      cat: '',
+      desc: '',
+      tech: '',
+      image: '/images/modern_website.png',
       clientId: '',
       status: 'Planning',
       shareLink: '',
@@ -85,6 +43,7 @@ const AdminPanel = () => {
   };
 
   const handleEdit = (project) => {
+    setAdminError(null);
     setFormData({
       ...project,
       clientId: project.clientId || '',
@@ -96,20 +55,35 @@ const AdminPanel = () => {
     setIsAdding(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingId) {
-      updateProject(editingId, formData);
-    } else {
-      addProject(formData);
+    setAdminError(null);
+    try {
+      if (editingId) {
+        await updateProject(editingId, formData);
+      } else {
+        await addProject(formData);
+      }
+      resetForm();
+    } catch (err) {
+      setAdminError(`Database Access Denied! ${err.message}. Tip: You must run the SQL command to promote your account to 'admin'.`);
     }
-    resetForm();
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const adminPass = import.meta.env.VITE_ADMIN_PASSWORD || 'Anve28#';
+    if (password === adminPass) {
+      setIsAuthenticated(true);
+    } else {
+      alert('Incorrect password!');
+    }
   };
 
   if (!isAuthenticated) {
     return (
       <div className="admin-login-overlay">
-        <motion.div 
+        <motion.div
           className="admin-login-card"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -118,14 +92,15 @@ const AdminPanel = () => {
             <LayoutDashboard size={32} color="#a855f7" />
             <h2>Anve tech Admin</h2>
           </div>
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <label>Administrator Password</label>
-              <input 
-                type="password" 
+          <form onSubmit={handleLogin} style={{ padding: '0 1rem 1rem' }}>
+            <div className="form-group" style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#d1d5db' }}>Administrator Password</label>
+              <input
+                type="password"
                 placeholder="Enter password..."
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }}
                 required
               />
             </div>
@@ -149,17 +124,12 @@ const AdminPanel = () => {
           <button className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}>
             <Briefcase size={20} /> Works
           </button>
-          <button className={activeTab === 'messages' ? 'active' : ''} onClick={() => setActiveTab('messages')}>
-            <MessageSquare size={20} /> Messages 
-            {messages.filter(m => m.sender === 'user' && !m.read).length > 0 && (
-              <span className="nav-badge">{messages.filter(m => m.sender === 'user' && !m.read).length}</span>
-            )}
-          </button>
+
           <button className={activeTab === 'users' ? 'active' : ''} onClick={() => setActiveTab('users')}>
             <Users size={20} /> Users
           </button>
         </div>
-        <button className="logout-btn" onClick={() => setIsAuthenticated(false)}>
+        <button className="logout-btn" onClick={() => { setIsAuthenticated(false); window.location.hash = '#home'; }}>
           <LogOut size={20} /> Logout
         </button>
       </div>
@@ -174,13 +144,15 @@ const AdminPanel = () => {
         </header>
 
         <div className="admin-content">
-          {activeTab === 'dashboard' && (
+          {worksLoading && (
+            <div className="admin-loading-screen">
+              <div className="admin-spinner"></div>
+              <p>Synchronizing with Supabase...</p>
+            </div>
+          )}
+
+          {!worksLoading && activeTab === 'dashboard' && (
             <div className="stats-grid-admin">
-              <div className="stat-card-admin highlight">
-                <span className="stat-label">Total Visitors</span>
-                <span className="stat-value">{visitorCount}</span>
-                <Eye size={20} className="stat-icon" />
-              </div>
               <div className="stat-card-admin">
                 <span className="stat-label">Delivered Projects</span>
                 <span className="stat-value">{projects.filter(p => p.status === 'Completed').length}</span>
@@ -208,9 +180,9 @@ const AdminPanel = () => {
               </div>
 
               <div className="projects-grid-admin">
-                {projects.map((project) => (
-                  <motion.div 
-                    key={project.id} 
+                {projects.filter(p => typeof p.id === 'number').map((project) => (
+                  <motion.div
+                    key={project.id}
                     className="project-row-card"
                     layout
                   >
@@ -220,8 +192,8 @@ const AdminPanel = () => {
                       <p>{project.cat}</p>
                     </div>
                     <div className="project-client-detail">
-                       <span className="client-label">Assigned To:</span>
-                       <span className="client-email-badge">{project.clientId || 'Unassigned'}</span>
+                      <span className="client-label">Assigned To:</span>
+                      <span className="client-email-badge">{project.clientId || 'Unassigned'}</span>
                     </div>
                     <div className="project-status-admin">
                       <span className={`status-badge-admin ${(project.status || 'Planning').toLowerCase().replace(/\s+/g, '-')}`}>
@@ -238,125 +210,36 @@ const AdminPanel = () => {
             </div>
           )}
 
-          {activeTab === 'messages' && (
-            <div className="messages-admin-view fix-height">
-              {messages.length === 0 ? (
-                <div className="no-messages">
-                  <MessageSquare size={48} className="muted-icon" />
-                  <p>No conversations started yet.</p>
-                </div>
-              ) : (
-                <div className="admin-messages-split">
-                  {/* Sidebar */}
-                  <div className="convo-sidebar">
-                    <div className="sidebar-search">
-                      <Search size={16} /> <span>Conversations</span>
-                    </div>
-                    <div className="convo-list">
-                      {Object.keys(groupedMessages).sort((a, b) => {
-                        const lastA = groupedMessages[a][groupedMessages[a].length - 1];
-                        const lastB = groupedMessages[b][groupedMessages[b].length - 1];
-                        return new Date(lastB.createdAt) - new Date(lastA.createdAt);
-                      }).map(email => {
-                        const msgs = groupedMessages[email];
-                        const lastMsg = msgs[msgs.length - 1];
-                        const isActive = selectedConvoEmail === email;
-                        
-                        // Always find the client name (sender === 'user')
-                        const clientMsg = msgs.find(m => m.sender === 'user') || msgs[0];
-                        const clientName = clientMsg.name;
-                        
-                        const unreadCount = msgs.filter(m => m.sender === 'user' && !m.read).length;
-
-                        return (
-                          <div 
-                            key={email} 
-                            className={`sidebar-item ${isActive ? 'active' : ''} ${unreadCount > 0 ? 'has-unread' : ''}`}
-                            onClick={() => setSelectedConvoEmail(email)}
-                          >
-                            <div className="user-avatar-init">{clientName.charAt(0)}</div>
-                            <div className="sidebar-item-info">
-                              <div className="top-row">
-                                <strong>{clientName}</strong>
-                                <span className="item-time">{new Date(lastMsg.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
-                              </div>
-                              <div className="bottom-row-sidebar">
-                                <p className="last-snippet">{lastMsg.message}</p>
-                                {unreadCount > 0 && <span className="convo-unread-badge">{unreadCount}</span>}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Chat Panel */}
-                  <div className="convo-detail-panel">
-                    {selectedConvoEmail && groupedMessages[selectedConvoEmail] ? (
-                      <>
-                        <div className="convo-detail-header">
-                           <div className="active-user-info">
-                             <h2>{groupedMessages[selectedConvoEmail][0].name}</h2>
-                             <span className="email-status">{selectedConvoEmail}</span>
-                           </div>
-                           <button className="btn-delete-convo-full" onClick={() => {
-                             if(window.confirm('Delete this entire conversation?')) {
-                               groupedMessages[selectedConvoEmail].forEach(m => deleteMessage(m.id));
-                               setSelectedConvoEmail(null);
-                             }
-                           }}>
-                             <Trash2 size={18} />
-                           </button>
-                        </div>
-                        
-                        <div className="detail-messages-display" ref={chatScrollRef}>
-                          {groupedMessages[selectedConvoEmail].map(m => (
-                            <div key={m.id} className={`admin-chat-bubble ${m.sender === 'admin' ? 'admin-sent' : 'user-sent'}`}>
-                               <div className="chat-bubble-content">
-                                 <p>{m.message}</p>
-                                 <span className="chat-bubble-time">{new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                               </div>
-                            </div>
-                          ))}
-                        </div>
-
-                        <form className="admin-chat-reply-form" onSubmit={(e) => {
-                          e.preventDefault();
-                          const input = e.target.replyText;
-                          if (!input.value.trim()) return;
-                          addMessage({
-                            name: 'Anve tech Support',
-                            email: 'support@anvetech.com',
-                            serviceType: 'Support Reply',
-                            message: input.value
-                          }, selectedConvoEmail, 'admin');
-                          input.value = '';
-                        }}>
-                          <input name="replyText" placeholder="Type a professional response..." required autoComplete="off" />
-                          <button type="submit" className="btn-chat-send-admin">
-                            <Send size={18} />
-                          </button>
-                        </form>
-                      </>
-                    ) : (
-                      <div className="no-selection-state">
-                        <MessageSquare size={64} className="faint-icon" />
-                        <p>Select a conversation to start messaging</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
 
           {activeTab === 'users' && (
             <div className="users-admin-view">
-              {users.length === 0 ? (
+              <div className="admin-view-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: '500' }}>
+                    Registered Clients (Total: {users.length})
+                  </h2>
+                  <button onClick={() => refreshUsers()} className="btn btn-white" style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}>Refresh List</button>
+                </div>
+                <div className="admin-search-box" style={{ position: 'relative', width: '300px' }}>
+                  <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#6b7280' }} />
+                  <input
+                    type="text"
+                    placeholder="Search by Name, Email, or ID..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{ width: '100%', padding: '0.6rem 1rem 0.6rem 2.5rem', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }}
+                  />
+                </div>
+              </div>
+
+              {users.filter(u =>
+                (u.id?.toString() || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (u.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (u.email || '').toLowerCase().includes(searchQuery.toLowerCase())
+              ).length === 0 ? (
                 <div className="no-messages">
                   <Users size={48} className="muted-icon" />
-                  <p>No users have registered yet.</p>
+                  <p>No registered clients match this search.</p>
                 </div>
               ) : (
                 <div className="users-table-container">
@@ -365,23 +248,48 @@ const AdminPanel = () => {
                       <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>City</th>
                         <th>Company</th>
                         <th>Mobile Number</th>
                         <th>Service Needed</th>
-                        <th>Joined</th>
-                        <th>UID</th>
+                        <th>ID</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {users.map(u => (
+                      {users.filter(u =>
+                        (u.id?.toString() || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        (u.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        (u.email || '').toLowerCase().includes(searchQuery.toLowerCase())
+                      ).map(u => (
                         <tr key={u.id}>
                           <td><div className="user-cell"><UserIcon size={14} /> {u.name}</div></td>
                           <td>{u.email}</td>
+                          <td className={!u.city ? "muted-text" : ""}>{u.city || '-'}</td>
                           <td className={!u.company ? "muted-text" : ""}>{u.company || '-'}</td>
                           <td className={!u.mobile ? "muted-text" : ""}>{u.mobile || '-'}</td>
                           <td className={!u.service ? "muted-text" : ""} style={u.service ? { color: '#a855f7', fontWeight: '600' } : {}}>{u.service || '-'}</td>
-                          <td>{new Date(u.joinedAt).toLocaleDateString()}</td>
-                          <td className="mono-text">{u.id}</td>
+                          <td className="mono-text">{u.id?.toString().slice(-6)}</td>
+                          <td style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                            <a
+                              href={`mailto:${u.email}?subject=Re: Your interest in ${u.service || 'Anve tech services'}&body=Hello ${u.name},%0D%0A%0D%0AThank you for engaging with Anve tech. We saw you were interested in ${u.service || 'our services'}...`}
+                              className="btn btn-white"
+                              style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                            >
+                              <Mail size={14} /> Send Mail
+                            </a>
+                            <button
+                              onClick={() => {
+                                if (window.confirm(`Are you sure you want to delete the user ${u.name}?`)) {
+                                  deleteAccount(u.id);
+                                }
+                              }}
+                              className="delete-icon-btn"
+                              title="Delete Client"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -396,7 +304,7 @@ const AdminPanel = () => {
       <AnimatePresence>
         {isAdding && (
           <div className="modal-overlay">
-            <motion.div 
+            <motion.div
               className="admin-modal"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -407,52 +315,57 @@ const AdminPanel = () => {
                 <button className="close-modal" onClick={resetForm}><X size={20} /></button>
               </div>
               <form className="admin-form" onSubmit={handleSubmit}>
+                {adminError && (
+                  <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444', color: '#fca5a5', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.9rem', lineHeight: '1.4' }}>
+                    <strong>Error:</strong> {adminError}
+                  </div>
+                )}
                 <div className="form-row">
                   <div className="form-group">
                     <label>Work Title</label>
-                    <input 
-                      type="text" 
-                      value={formData.title} 
-                      onChange={(e) => setFormData({...formData, title: e.target.value})} 
-                      required 
+                    <input
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      required
                     />
                   </div>
                   <div className="form-group">
                     <label>Category</label>
-                    <input 
-                      type="text" 
-                      value={formData.cat} 
-                      onChange={(e) => setFormData({...formData, cat: e.target.value})} 
-                      required 
+                    <input
+                      type="text"
+                      value={formData.cat}
+                      onChange={(e) => setFormData({ ...formData, cat: e.target.value })}
+                      required
                     />
                   </div>
                 </div>
                 <div className="form-row">
                   <div className="form-group">
-                      <label>Image URL</label>
-                      <input 
-                        type="text" 
-                        value={formData.image} 
-                        onChange={(e) => setFormData({...formData, image: e.target.value})} 
-                        required 
-                      />
+                    <label>Image URL</label>
+                    <input
+                      type="text"
+                      value={formData.image}
+                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label>Assign to Client (User Email)</label>
-                    <input 
-                      type="email" 
+                    <input
+                      type="email"
                       placeholder="Enter client email..."
-                      value={formData.clientId} 
-                      onChange={(e) => setFormData({...formData, clientId: e.target.value})}
+                      value={formData.clientId}
+                      onChange={(e) => setFormData({ ...formData, clientId: e.target.value })}
                     />
                   </div>
                 </div>
                 <div className="form-row">
                   <div className="form-group">
                     <label>Project Status</label>
-                    <select 
-                      value={formData.status} 
-                      onChange={(e) => setFormData({...formData, status: e.target.value})}
+                    <select
+                      value={formData.status}
+                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     >
                       <option value="Planning">Planning</option>
                       <option value="In Progress">In Progress</option>
@@ -462,40 +375,40 @@ const AdminPanel = () => {
                   </div>
                   <div className="form-group">
                     <label>Live Project / Preview Link</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="https://..."
-                      value={formData.shareLink} 
-                      onChange={(e) => setFormData({...formData, shareLink: e.target.value})} 
+                      value={formData.shareLink}
+                      onChange={(e) => setFormData({ ...formData, shareLink: e.target.value })}
                     />
                   </div>
                 </div>
                 <div className="form-group">
                   <label>Resource Materials / Download Links (One per line)</label>
-                  <textarea 
-                    rows="3" 
+                  <textarea
+                    rows="3"
                     placeholder="User Manual: https://...\nSource Code: https://..."
-                    value={formData.attachments} 
-                    onChange={(e) => setFormData({...formData, attachments: e.target.value})} 
+                    value={formData.attachments}
+                    onChange={(e) => setFormData({ ...formData, attachments: e.target.value })}
                   ></textarea>
                 </div>
                 <div className="form-group">
                   <label>Tech Stack (Comma separated)</label>
-                  <input 
-                    type="text" 
-                    value={formData.tech} 
-                    onChange={(e) => setFormData({...formData, tech: e.target.value})} 
+                  <input
+                    type="text"
+                    value={formData.tech}
+                    onChange={(e) => setFormData({ ...formData, tech: e.target.value })}
                     placeholder="React, Next.js, OpenAI"
-                    required 
+                    required
                   />
                 </div>
                 <div className="form-group">
                   <label>Brief Description</label>
-                  <textarea 
-                    rows="3" 
-                    value={formData.desc} 
-                    onChange={(e) => setFormData({...formData, desc: e.target.value})} 
-                    required 
+                  <textarea
+                    rows="3"
+                    value={formData.desc}
+                    onChange={(e) => setFormData({ ...formData, desc: e.target.value })}
+                    required
                   ></textarea>
                 </div>
                 <div className="modal-footer">

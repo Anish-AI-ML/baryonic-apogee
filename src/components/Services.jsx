@@ -13,7 +13,7 @@ const icons = {
 
 const Services = () => {
   const { t } = useLanguage();
-  
+
   const servicesKeys = ['websites', 'billing', 'frontend', 'portfolios', 'ecommerce'];
 
   return (
