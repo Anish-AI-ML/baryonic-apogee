@@ -2,19 +2,14 @@ import { motion } from 'framer-motion';
 import { Mail, MapPin, Send } from 'lucide-react';
 import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { useWorks } from '../context/WorksContext';
 import './Contact.css';
 
 const Contact = () => {
   const { t, language } = useLanguage();
-  const { addMessage } = useWorks();
   const [formData, setFormData] = useState({ name: '', email: '', serviceType: 'New Website', message: '' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Save message to admin panel
-    addMessage(formData);
 
     const targetEmail = "anvetechnologies@gmail.com";
     const subject = `Inquiry: ${formData.serviceType} from ${formData.name}`;
