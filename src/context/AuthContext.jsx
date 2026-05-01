@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
 
     // 1. Listen for Auth changes (login, logout, token refresh)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session && mounted) {
+      if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') && session && mounted) {
         await fetchAndSetUserProfile(session.user, mounted);
         fetchAllProfiles(); 
       } else if (event === 'SIGNED_OUT' && mounted) {

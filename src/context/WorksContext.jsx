@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { translations } from '../data/translations';
+import { useAuth } from './AuthContext';
 
 const WorksContext = createContext();
 
@@ -8,6 +9,7 @@ export const WorksProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [visitorCount, setVisitorCount] = useState(1284);
   const [loading, setLoading] = useState(true);
+  const { currentUser } = useAuth();
 
   // 1. Fetch projects and stats from Supabase
   const fetchData = async () => {
@@ -98,7 +100,7 @@ export const WorksProvider = ({ children }) => {
       mounted = false;
       supabase.removeChannel(projectsChannel);
     };
-  }, []);
+  }, [currentUser?.id]);
 
 
   const addProject = async (project) => {
