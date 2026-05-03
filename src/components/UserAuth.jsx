@@ -13,9 +13,29 @@ const UserAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const [cooldown, setCooldown] = useState(0);
   const { login, signup, resetPassword, updatePassword } = useAuth();
   
   const isResetHash = window.location.hash.includes('reset') || window.location.hash.includes('type=recovery') || window.location.search.includes('type=recovery');
+
+  React.useEffect(() => {
+    const initSessionFromUrl = async () => {
+      const hash = window.location.hash;
+      if (hash.includes('access_token') || hash.includes('type=recovery')) {
+        try {
+          // Attempt user-requested method first, fallback to Supabase v2 standard behavior
+          if (typeof supabase.auth.getSessionFromUrl === 'function') {
+            await supabase.auth.getSessionFromUrl({ storeSession: true });
+          } else {
+            await supabase.auth.getSession();
+          }
+        } catch (error) {
+          console.error('Error parsing session from URL:', error);
+        }
+      }
+    };
+    initSessionFromUrl();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,8 +49,37 @@ const UserAuth = () => {
         setSuccessMsg('Password updated successfully! Redirecting...');
         setTimeout(() => window.location.hash = '#dashboard', 2000);
       } else if (isForgotPassword) {
-        await resetPassword(formData.email.trim());
-        setSuccessMsg('Reset link sent! Please check your email.');
+        if (cooldown > 0) return;
+        
+        let shouldThrowRateLimit = false;
+        try {
+          await resetPassword(formData.email.trim());
+        } catch (err) {
+          if (err.message && err.message.toLowerCase().includes('rate limit')) {
+            shouldThrowRateLimit = true;
+          } else {
+            console.error('Password reset error:', err);
+          }
+        }
+
+        if (!shouldThrowRateLimit) {
+          setSuccessMsg('If this email exists, a reset link has been sent.');
+        }
+        
+        setCooldown(60);
+        const interval = setInterval(() => {
+          setCooldown(prev => {
+            if (prev <= 1) {
+              clearInterval(interval);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+
+        if (shouldThrowRateLimit) {
+          throw new Error('Please wait a minute before requesting another reset link.');
+        }
       } else if (isLogin) {
         const email = formData.email.trim();
         const password = formData.password.trim();
@@ -166,8 +215,8 @@ const UserAuth = () => {
             {error && <p className="auth-error">{error}</p>}
             {successMsg && <p className="auth-error" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', border: '1px solid #10b981' }}>{successMsg}</p>}
 
-            <button type="submit" className="btn btn-white auth-submit" disabled={isLoading} style={{ opacity: isLoading ? 0.7 : 1, cursor: isLoading ? 'wait' : 'pointer' }}>
-              {isLoading ? 'Processing...' : (
+            <button type="submit" className="btn btn-white auth-submit" disabled={isLoading || (isForgotPassword && cooldown > 0)} style={{ opacity: isLoading || (isForgotPassword && cooldown > 0) ? 0.7 : 1, cursor: isLoading ? 'wait' : (isForgotPassword && cooldown > 0) ? 'not-allowed' : 'pointer' }}>
+              {isLoading ? 'Processing...' : (isForgotPassword && cooldown > 0) ? `Wait ${cooldown}s` : (
                 <>{isResetHash ? 'Update Password' : isForgotPassword ? 'Send Reset Link' : isLogin ? 'Sign In' : 'Get Started'} <ArrowRight size={18} /></>
               )}
             </button>
