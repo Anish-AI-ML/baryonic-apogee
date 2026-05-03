@@ -108,6 +108,7 @@ export const translations = {
       supportTitle: "Support",
       legalTitle: "Legal & Links",
       langTitle: "Language",
+      followUsTitle: "Follow Us",
       links: {
         home: "Home",
         liveChat: "Live Chat",
@@ -233,6 +234,7 @@ export const translations = {
       supportTitle: "ஆதரவு",
       legalTitle: "சட்டபூர்வ மற்றும் இணைப்புகள்",
       langTitle: "மொழி",
+      followUsTitle: "எங்களைப் பின்தொடரவும்",
       links: {
         home: "முகப்பு",
         liveChat: "நேரடி அரட்டை",
@@ -358,6 +360,7 @@ export const translations = {
       supportTitle: "सहायता",
       legalTitle: "कानूनी और लिंक",
       langTitle: "भाषा",
+      followUsTitle: "हमें फ़ॉलो करें",
       links: {
         home: "होम",
         liveChat: "लाइव चैट",

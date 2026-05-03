@@ -61,6 +61,15 @@ const Footer = () => {
               </ul>
             </div>
             <div className="footer-column">
+              <h4>{t('footer.followUsTitle')}</h4>
+              <ul>
+                <li><a href="https://www.facebook.com/share/1TZoQTjctJ/" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                <li><a href="https://www.linkedin.com/in/anve-tech-938843407?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://www.instagram.com/anvetech?igsh=YTlpdmRrYW1xMnJm" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                <li style={{ marginTop: '0.5rem' }}><a href="#links" style={{ color: 'var(--primary-color)' }}>All Links & QR Code</a></li>
+              </ul>
+            </div>
+            <div className="footer-column">
               <h4>{t('footer.langTitle')}</h4>
               <ul>
                 <li><a href="#en" onClick={(e) => { e.preventDefault(); setLanguage('en'); }}>English</a></li>

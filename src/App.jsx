@@ -15,6 +15,8 @@ import Terms from './components/Terms';
 import AdminPanel from './components/AdminPanel';
 import UserAuth from './components/UserAuth';
 import UserDashboard from './components/UserDashboard';
+import SocialLinksPage from './components/SocialLinksPage';
+import ErrorBoundary from './components/ErrorBoundary';
 import { WorksProvider } from './context/WorksContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
@@ -23,7 +25,7 @@ const AppContent = ({ scrolled, currentPage }) => {
 
   return (
     <div className="app-container">
-      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && <Navbar scrolled={scrolled} />}
+      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && currentPage !== 'links' && <Navbar scrolled={scrolled} />}
       
       {currentPage === 'privacy' ? (
         <Privacy />
@@ -35,6 +37,10 @@ const AppContent = ({ scrolled, currentPage }) => {
         <UserAuth />
       ) : currentPage === 'dashboard' ? (
         <UserDashboard />
+      ) : currentPage === 'links' ? (
+        <ErrorBoundary>
+          <SocialLinksPage />
+        </ErrorBoundary>
       ) : (
         <main>
           <Hero />
@@ -47,8 +53,8 @@ const AppContent = ({ scrolled, currentPage }) => {
         </main>
       )}
 
-      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && <Footer />}
-      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && <Chatbot />}
+      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && currentPage !== 'links' && <Footer />}
+      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && currentPage !== 'links' && <Chatbot />}
     </div>
   );
 };
@@ -83,6 +89,7 @@ function App() {
       else if (hash === '#admin') setCurrentPage('admin');
       else if (hash === '#login' || hash === '#signup' || hash === '#reset') setCurrentPage('login');
       else if (hash === '#dashboard') setCurrentPage('dashboard');
+      else if (hash === '#links') setCurrentPage('links');
       else {
         setCurrentPage('home');
         // Force scroll jump after React mounts the Home elements 
