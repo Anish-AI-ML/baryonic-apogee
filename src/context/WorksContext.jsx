@@ -61,10 +61,10 @@ export const WorksProvider = ({ children }) => {
   useEffect(() => {
     let mounted = true;
 
-    // Safety timeout: 5 seconds max before forced loading-off
+    // Safety timeout: 60 seconds max before forced loading-off
     const timeoutId = setTimeout(() => {
       if (mounted) setLoading(false);
-    }, 5000);
+    }, 60000);
 
     fetchData().then(() => {
       if (mounted) {
@@ -80,6 +80,7 @@ export const WorksProvider = ({ children }) => {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, (payload) => {
         if (!mounted) return;
         
+        console.log("🔥 REALTIME PAYLOAD RECEIVED:", payload);
         const { eventType, new: newRecord, old: oldRecord } = payload;
         
         if (eventType === 'INSERT') {
@@ -94,13 +95,18 @@ export const WorksProvider = ({ children }) => {
           setProjects(prev => prev.filter(p => p.id !== oldRecord.id));
         }
       })
-      .subscribe();
+      .subscribe((status) => {
+        console.log("📡 Supabase Projects Realtime Status:", status);
+        if (status === 'SUBSCRIBED') {
+          console.log("✅ Successfully connected to projects real-time channel!");
+        }
+      });
 
     return () => {
       mounted = false;
       supabase.removeChannel(projectsChannel);
     };
-  }, [currentUser?.id]);
+  }, []);
 
 
   const addProject = async (project) => {

@@ -23,28 +23,30 @@ const UserAuth = () => {
     setSuccessMsg('');
     setIsLoading(true);
 
-    // Failsafe timeout to prevent infinite loading if Supabase network hangs
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error("Network timeout: Please check your connection or request a new reset link.")), 10000)
-    );
-
     try {
       if (isResetHash) {
-        await Promise.race([updatePassword(formData.password.trim()), timeoutPromise]);
+        await updatePassword(formData.password.trim());
         setSuccessMsg('Password updated successfully! Redirecting...');
         setTimeout(() => window.location.hash = '#dashboard', 2000);
       } else if (isForgotPassword) {
-        await Promise.race([resetPassword(formData.email.trim()), timeoutPromise]);
+        await resetPassword(formData.email.trim());
         setSuccessMsg('Reset link sent! Please check your email.');
       } else if (isLogin) {
         const email = formData.email.trim();
         const password = formData.password.trim();
-        const data = await Promise.race([login(email, password), timeoutPromise]);
+        
+        console.log("----- LOGIN DEBUG INFO -----");
+        console.log("Email being sent:", email);
+        console.log("Password length:", password.length);
+        console.log("Supabase URL used:", import.meta.env.VITE_SUPABASE_URL);
+        console.log("----------------------------");
+
+        const data = await login(email, password);
         if (data?.user) {
           window.location.hash = '#dashboard';
         }
       } else {
-        const result = await Promise.race([signup(formData), timeoutPromise]);
+        const result = await signup(formData);
         if (result && result.status === 'logged_in') {
           window.location.hash = '#dashboard';
         } else {
@@ -52,6 +54,7 @@ const UserAuth = () => {
         }
       }
     } catch (err) {
+      console.error("Login catch block error:", err);
       setError(err.message);
     } finally {
       setIsLoading(false);

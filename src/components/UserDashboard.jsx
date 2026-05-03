@@ -12,11 +12,6 @@ const UserDashboard = () => {
   const [profileMsg, setProfileMsg] = useState(null);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
-  if (!currentUser) {
-    window.location.hash = '#login';
-    return null;
-  }
-
   const [profileData, setProfileData] = useState({
     name: currentUser?.name || '',
     company: currentUser?.company || '',
@@ -39,7 +34,12 @@ const UserDashboard = () => {
   }, [currentUser, isEditingProfile]);
 
   // Filter projects strictly for the current user
-  const userProjects = projects.filter(p => p.clientId === currentUser.email);
+  const userProjects = projects.filter(p => p.clientId === currentUser?.email);
+
+  if (!currentUser) {
+    window.location.hash = '#login';
+    return null;
+  }
 
   const renderAttachments = (attachments) => {
     if (!attachments) return null;

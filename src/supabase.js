@@ -14,4 +14,10 @@ if (!finalKey || finalKey === 'YOUR_SUPABASE_ANON_KEY_HERE') {
   finalKey = 'placeholder-anon-key';
 }
 
-export const supabase = createClient(finalUrl, finalKey);
+export const supabase = createClient(finalUrl, finalKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  }
+});

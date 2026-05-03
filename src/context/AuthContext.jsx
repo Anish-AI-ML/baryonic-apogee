@@ -44,22 +44,24 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data && mounted) {
-        setCurrentUser({
+        setCurrentUser(prev => ({
+          ...(prev || {}),
           ...data,
           id: sessionUser.id,
           email: sessionUser.email,
           role: data.role || 'user'
-        });
+        }));
       }
     } catch (err) {
       console.error("Error fetching user profile:", err);
       if (mounted) {
-        setCurrentUser({
+        setCurrentUser(prev => ({
+          ...(prev || {}),
           id: sessionUser.id,
           email: sessionUser.email,
           name: sessionUser.user_metadata?.name || 'User',
           role: 'user'
-        });
+        }));
       }
     }
   };
@@ -68,38 +70,38 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let mounted = true;
 
-    const initAuth = async () => {
-      // Safety timeout: 5 seconds max before forced loading-off
-      const timeoutId = setTimeout(() => {
-        if (mounted) setLoading(false);
-      }, 5000);
-
+    const restoreSession = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
         
-        if (session?.user && mounted) {
-          await fetchAndSetUserProfile(session.user, mounted);
+        setCurrentUser(data.session?.user || null);
+        
+        if (data.session?.user && mounted) {
+          // Fetch the full profile in the background
+          fetchAndSetUserProfile(data.session.user, mounted);
         }
       } catch (err) {
-        console.error("Supabase auth error: ", err.message);
+        console.error("Session restore error:", err);
+        setCurrentUser(null);
       } finally {
-        if (mounted) {
-          clearTimeout(timeoutId);
-          setLoading(false);
-        }
+        if (mounted) setLoading(false);
       }
     };
 
-    initAuth();
+    restoreSession();
 
-    // 1. Listen for Auth changes (login, logout, token refresh)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') && session && mounted) {
-        await fetchAndSetUserProfile(session.user, mounted);
-        fetchAllProfiles(); 
-      } else if (event === 'SIGNED_OUT' && mounted) {
-        setCurrentUser(null);
-      } else if (event === 'PASSWORD_RECOVERY') {
+    // 1. Listen for Auth changes
+    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth event:", event);
+      setCurrentUser(session?.user || null);
+      
+      if (session?.user && mounted) {
+        fetchAndSetUserProfile(session.user, mounted);
+        if (event === 'SIGNED_IN') fetchAllProfiles();
+      }
+      
+      if (event === 'PASSWORD_RECOVERY') {
         window.location.hash = '#reset';
       }
     });
@@ -126,7 +128,7 @@ export const AuthProvider = ({ children }) => {
 
     return () => {
       mounted = false;
-      subscription.unsubscribe();
+      listener?.subscription?.unsubscribe();
       supabase.removeChannel(profileChannel);
     };
   }, []);
