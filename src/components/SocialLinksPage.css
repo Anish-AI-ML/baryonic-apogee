@@ -22,6 +22,19 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 123, 255, 0.1);
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .social-links-container::before {
@@ -74,6 +87,11 @@
   border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-4px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.social-link-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .link-icon {
@@ -176,4 +194,56 @@
 .share-top-btn:hover .share-tooltip {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .social-links-page {
+    padding: 1rem;
+  }
+  
+  .social-links-container {
+    padding: 2.5rem 1.5rem;
+    border-radius: 20px;
+  }
+  
+  .brand-header {
+    margin-bottom: 2rem;
+  }
+
+  .links-list {
+    margin-bottom: 2.5rem;
+    gap: 1rem;
+  }
+
+  .social-link-btn {
+    padding: 1rem 1.25rem;
+    font-size: 1.05rem;
+  }
+  
+  .link-icon {
+    font-size: 1.3rem;
+    margin-right: 0.8rem;
+    width: 28px;
+  }
+
+  .link-name {
+    margin-right: 28px;
+  }
+
+  .qr-section {
+    padding-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .qr-wrapper {
+    padding: 0.75rem;
+  }
+  
+  .share-top-btn {
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+  }
 }
