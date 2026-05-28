@@ -28,5 +28,6 @@ const Home = () => {
     </div>
   );
 };
+ // Note: The CSS file 'Home.css' can be used to style the home page and ensure consistent spacing and layout across all sections.
 
 export default Home;
