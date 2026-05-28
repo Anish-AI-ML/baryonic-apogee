@@ -1,0 +1,110 @@
+.build-comparison {
+  background-color: var(--color-bg-page);
+}
+
+.comparison-table-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.comparison-column {
+  padding: 48px;
+  border-radius: 8px;
+}
+
+.template-column {
+  background-color: var(--color-bg-page);
+  border: 1px dashed var(--color-border-strong);
+}
+
+.crafted-column {
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle accent line on top of crafted column */
+.crafted-column::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: var(--color-accent-primary);
+}
+
+.column-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.column-title {
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.column-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.comparison-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.template-item, .crafted-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.template-item {
+  color: var(--color-text-muted);
+}
+
+.crafted-item {
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.item-icon {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.template-item .item-icon {
+  color: var(--color-error);
+  opacity: 0.7;
+}
+
+.crafted-item .item-icon {
+  color: var(--color-success);
+}
+
+@media (max-width: 1024px) {
+  .comparison-table-wrapper {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .comparison-column {
+    padding: 32px 24px;
+  }
+}

@@ -1,6 +1,6 @@
 .about-section {
   padding: 12rem 0;
-  background-color: var(--bg-dark);
+  background-color: var(--color-bg-page);
   position: relative;
   overflow: hidden;
 }
@@ -21,7 +21,7 @@
 .about-label {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   display: block;
@@ -32,14 +32,14 @@
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
   line-height: 1.05;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   margin-bottom: 2.5rem;
   letter-spacing: -0.04em;
 }
 
 .about-text {
   font-size: 1.25rem;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   line-height: 1.6;
   margin-bottom: 4rem;
   max-width: 550px;
@@ -53,10 +53,10 @@
 
 .stat-card {
   padding: 1.5rem;
-  background: #0a0a0a;
+  background: var(--color-bg-surface);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-soft);
   transition: all 0.3s ease;
 }
 
@@ -64,14 +64,14 @@
   display: block;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   letter-spacing: -0.03em;
   margin-bottom: 0.25rem;
 }
 
 .stat-desc {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -96,7 +96,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 32px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+  box-shadow: var(--shadow-medium);
   display: block;
 }
 
@@ -106,7 +106,7 @@
   right: -20px;
   width: 100px;
   height: 100px;
-  background-image: radial-gradient(#a855f7 2px, transparent 2px);
+  background-image: radial-gradient(var(--color-accent-primary) 2px, transparent 2px);
   background-size: 15px 15px;
   opacity: 0.2;
   z-index: -1;
@@ -119,9 +119,9 @@
   left: -40px;
   width: 200px;
   height: 200px;
-  border: 2px dashed #ec4899;
+  border: 2px dashed var(--color-accent-secondary);
   border-radius: 50%;
-  opacity: 0.1;
+  opacity: 0.15;
   z-index: -1;
   transform: translateZ(-40px) rotate(15deg);
 }
@@ -132,11 +132,11 @@
   right: -40px;
   width: 240px;
   padding: 2rem;
-  background: rgba(10, 10, 10, 0.8);
+  background: var(--color-bg-overlay);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: var(--shadow-medium);
   transform: translateZ(50px);
   z-index: 10;
 }
@@ -146,15 +146,15 @@
   font-size: 0.65rem;
   font-weight: 700;
   padding: 0.25rem 0.75rem;
-  background: white;
-  color: black;
+  background: var(--color-text-primary);
+  color: var(--color-bg-page);
   border-radius: 100px;
   margin-bottom: 1rem;
 }
 
 .visual-overlay-card p {
   font-size: 0.95rem;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   font-weight: 500;
   line-height: 1.4;
 }

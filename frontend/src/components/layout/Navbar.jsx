@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User, LogOut, LogIn } from 'lucide-react';
-import { useLanguage } from '../../context/LanguageContext';
+import { Menu, X, User, LogOut, LogIn, Sun, Moon } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import Logo from '../common/Logo';
 import './Navbar.css';
 
 const Navbar = ({ scrolled }) => {
-  const { t } = useLanguage();
   const { currentUser, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [activeSection, setActiveSection] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['services', 'about', 'how-it-works', 'projects', 'why', 'contact'];
+      if (location.pathname !== '/') return;
+
+      const sections = ['work', 'services', 'standards', 'process'];
       let current = '';
       
       for (const section of sections) {
@@ -32,126 +37,136 @@ const Navbar = ({ scrolled }) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   return (
-    <motion.nav 
-      className={`navbar ${scrolled ? 'glass' : ''}`}
+    <motion.header 
+      className={`command-bar-wrapper ${scrolled ? 'scrolled' : ''}`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="container nav-container">
-        <a href="#" className="logo">
-          <Logo className="navbar-logo" />
-        </a>
-
-        <button 
-          className="mobile-menu-toggle" 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        <div className="center-nav">
-          <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`}>{t('nav.services')}</a>
-          <a href="#about" className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}>{t('nav.about')}</a>
-          <a href="#how-it-works" className={`nav-link ${activeSection === 'how-it-works' ? 'active' : ''}`}>{t('nav.howItWorks')}</a>
-          <a href="#projects" className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`}>{t('nav.projects')}</a>
-          <a href="#why" className={`nav-link ${activeSection === 'why' ? 'active' : ''}`}>{t('nav.features')}</a>
+      <nav className="command-bar-segmented" aria-label="Main Navigation">
+        
+        {/* Left: Brand Lockup */}
+        <div className="command-pill brand-pill">
+          <Link to="/" className="brand-logo-link" aria-label="Go to homepage">
+            <Logo className="command-logo" />
+          </Link>
+          <div className="brand-divider" aria-hidden="true"></div>
+          <span className="brand-descriptor">Web design & frontend builds</span>
         </div>
 
-        <div className="desktop-nav">
-          <AnimatePresence>
-            {scrolled && (
-              <motion.a 
-                href="#contact" 
-                initial={{ opacity: 0, scale: 0.9, x: 20 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.9, x: 20 }}
-                transition={{ duration: 0.2 }}
-                className="btn btn-white"
-                style={{ padding: '0.6rem 1.5rem', fontSize: '0.9rem', borderRadius: '100px' }}
+        {/* Center: Main Navigation */}
+        <div className="command-pill nav-pill">
+          <HashLink smooth to="/#work" className={`cmd-link ${activeSection === 'work' ? 'active' : ''}`}>Work</HashLink>
+          <HashLink smooth to="/#services" className={`cmd-link ${activeSection === 'services' ? 'active' : ''}`}>Services</HashLink>
+          <HashLink smooth to="/#standards" className={`cmd-link ${activeSection === 'standards' ? 'active' : ''}`}>Standards</HashLink>
+          <HashLink smooth to="/#process" className={`cmd-link ${activeSection === 'process' ? 'active' : ''}`}>Process</HashLink>
+        </div>
+
+        {/* Right: Actions & Theme */}
+        <div className="command-pill actions-pill">
+          <button 
+            onClick={toggleTheme}
+            className="cmd-icon-btn"
+            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+          >
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          {/* Secondary Action: Login/Dashboard */}
+          {currentUser ? (
+            <div className="cmd-user-group">
+              {currentUser.email === 'anvetechnologies@gmail.com' && (
+                <Link to="/admin" className="cmd-link-secondary" aria-label="Admin Panel">Admin</Link>
+              )}
+              <Link to="/dashboard" className="cmd-link-secondary" aria-label="Dashboard">Dashboard</Link>
+              <button 
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); logout(); }} 
+                className="cmd-icon-btn"
+                aria-label="Logout"
               >
-                {t('nav.contact')}
-              </motion.a>
-            )}
-          </AnimatePresence>
-          <div className="auth-nav-group">
-             {currentUser && (
-               <>
-                 {currentUser.email === 'anvetechnologies@gmail.com' && (
-                   <a href="#admin" className="nav-link admin-nav-pill">
-                     Admin Panel
-                   </a>
-                 )}
-                 <a href="#dashboard" className={`nav-link dashboard-nav-pill ${activeSection === 'dashboard' ? 'active' : ''}`}>
-                   Dashboard
-                 </a>
-               </>
-             )}
-            {currentUser ? (
-               <a href="#dashboard" className="user-profile-prominent">
-                <span className="user-name-nav"><User size={16} /> {currentUser.name}</span>
-                <button 
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); logout(); }} 
-                  className="btn-logout-prominent"
-                >
-                  <LogOut size={18} />
-                </button>
-              </a>
-            ) : (
-              <a href="#login" className="btn btn-black login-btn-prominent">
-                <LogIn size={18} /> Login / Signup
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="cmd-link-secondary" aria-label="Client Login">Login</Link>
+          )}
 
+          {/* Primary Action */}
+          <HashLink 
+            smooth
+            to="/#contact" 
+            className="cmd-primary-btn"
+          >
+            Discuss a Build
+          </HashLink>
+        </div>
+
+        {/* Mobile Toggle */}
+        <button 
+          className="command-pill cmd-mobile-toggle" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-expanded={isMobileMenuOpen}
+          aria-label="Toggle Navigation Menu"
+        >
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </nav>
+
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
-            className="mobile-nav"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: '100vh' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            className="cmd-mobile-menu"
+            initial={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="mobile-nav-content">
-              {currentUser && (
-                <a href="#dashboard" onClick={() => setIsMobileMenuOpen(false)} className="mobile-user-info">
-                   <User size={24} color="#a855f7" />
-                   <span>{currentUser.name}</span>
-                </a>
-              )}
-              
-              <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className={`mobile-nav-link ${activeSection === 'services' ? 'active' : ''}`}>{t('nav.services')}</a>
-              <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className={`mobile-nav-link ${activeSection === 'about' ? 'active' : ''}`}>{t('nav.about')}</a>
-              <a href="#how-it-works" onClick={() => setIsMobileMenuOpen(false)} className={`mobile-nav-link ${activeSection === 'how-it-works' ? 'active' : ''}`}>{t('nav.howItWorks')}</a>
-              <a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className={`mobile-nav-link ${activeSection === 'projects' ? 'active' : ''}`}>{t('nav.projects')}</a>
-              <a href="#why" onClick={() => setIsMobileMenuOpen(false)} className={`mobile-nav-link ${activeSection === 'why' ? 'active' : ''}`}>{t('nav.features')}</a>
-              
-              <div className="mobile-auth-actions">
-                {currentUser ? (
-                  <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="mobile-nav-link logout-text">
-                    <LogOut size={20} /> Logout
-                  </button>
-                ) : (
-                  <a href="#login" onClick={() => setIsMobileMenuOpen(false)} className="mobile-nav-link">
-                    <LogIn size={20} /> Login / Signup
-                  </a>
-                )}
-              </div>
+            <div className="cmd-mobile-nav-items">
+              <span className="mobile-menu-label">Navigation</span>
+              <HashLink smooth to="/#work" onClick={() => setIsMobileMenuOpen(false)} className="mobile-cmd-link">Selected Work</HashLink>
+              <HashLink smooth to="/#services" onClick={() => setIsMobileMenuOpen(false)} className="mobile-cmd-link">Services</HashLink>
+              <HashLink smooth to="/#standards" onClick={() => setIsMobileMenuOpen(false)} className="mobile-cmd-link">Craft Standards</HashLink>
+              <HashLink smooth to="/#process" onClick={() => setIsMobileMenuOpen(false)} className="mobile-cmd-link">Process</HashLink>
+            </div>
 
-              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="btn btn-black mobile-contact-btn">
-                {t('nav.contact')}
-              </a>
+            <div className="cmd-mobile-footer-actions">
+              <span className="mobile-menu-label">System</span>
+              <button 
+                onClick={toggleTheme}
+                className="mobile-cmd-link mobile-theme-toggle"
+                aria-label="Toggle Theme"
+              >
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </button>
+
+              {currentUser ? (
+                <>
+                  <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="mobile-cmd-link">
+                    <User size={18} /> Dashboard
+                  </Link>
+                  <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="mobile-cmd-link text-error">
+                    <LogOut size={18} /> Logout
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="mobile-cmd-link">
+                  <LogIn size={18} /> Client Login
+                </Link>
+              )}
+
+              <HashLink smooth to="/#contact" onClick={() => setIsMobileMenuOpen(false)} className="cmd-primary-btn mobile-full-width-btn">
+                Discuss a Build
+              </HashLink>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </motion.header>
   );
 };
 

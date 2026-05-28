@@ -1,0 +1,63 @@
+/* ProofOfCraft.css */
+.proof-section {
+  padding: 40px 24px;
+  border-top: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-surface);
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.proof-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.proof-icon {
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.proof-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.proof-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.proof-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .proof-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 480px) {
+  .proof-grid {
+    grid-template-columns: 1fr;
+  }
+}

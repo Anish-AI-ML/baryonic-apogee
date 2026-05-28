@@ -1,126 +1,125 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Preloader from './components/common/Preloader';
-import Navbar from './components/layout/Navbar';
-import Hero from './components/features/hero/Hero';
-import Services from './components/features/services/Services';
-import About from './components/features/about/About';
-import HowItWorks from './components/features/how-it-works/HowItWorks';
-import Projects from './components/features/projects/Projects';
-import WhyChooseUs from './components/features/why-choose-us/WhyChooseUs';
-import Contact from './components/features/contact/Contact';
-import Footer from './components/layout/Footer';
-import Chatbot from './components/features/chatbot/Chatbot';
-import Privacy from './components/features/legal/Privacy';
-import Terms from './components/features/legal/Terms';
-import AdminPanel from './components/features/admin/AdminPanel';
-import UserAuth from './components/features/auth/UserAuth';
-import UserDashboard from './components/features/dashboard/UserDashboard';
-import SocialLinksPage from './components/features/social/SocialLinksPage';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import { WorksProvider } from './context/WorksContext';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
+import MainLayout from './components/layout/MainLayout';
+import ProtectedRoute from './components/common/ProtectedRoute';
 
-const AppContent = ({ scrolled, currentPage }) => {
-  const { currentUser } = useAuth();
+import Home from './pages/Home';
 
-  return (
-    <div className="app-container">
-      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && currentPage !== 'links' && <Navbar scrolled={scrolled} />}
-      
-      {currentPage === 'privacy' ? (
-        <Privacy />
-      ) : currentPage === 'terms' ? (
-        <Terms />
-      ) : currentPage === 'admin' ? (
-        <AdminPanel />
-      ) : currentPage === 'login' ? (
-        <UserAuth />
-      ) : currentPage === 'dashboard' ? (
-        <UserDashboard />
-      ) : currentPage === 'links' ? (
-        <ErrorBoundary>
-          <SocialLinksPage />
-        </ErrorBoundary>
-      ) : (
-        <main>
-          <Hero />
-          <Services />
-          <About />
-          <HowItWorks />
-          <Projects />
-          <WhyChooseUs />
-          <Contact />
-        </main>
-      )}
+// Lazy loaded heavy components
+const Privacy = lazy(() => import('./components/features/legal/Privacy'));
+const Terms = lazy(() => import('./components/features/legal/Terms'));
+const AdminPanel = lazy(() => import('./components/features/admin/AdminPanel'));
+const UserAuth = lazy(() => import('./components/features/auth/UserAuth'));
+const UserDashboard = lazy(() => import('./components/features/dashboard/UserDashboard'));
+const SocialLinksPage = lazy(() => import('./components/features/social/SocialLinksPage'));
 
-      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && currentPage !== 'links' && <Footer />}
-      {currentPage !== 'admin' && currentPage !== 'login' && currentPage !== 'dashboard' && currentPage !== 'links' && <Chatbot />}
-    </div>
-  );
+const AuthCallbackHandler = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Intercept Supabase implicit grant recovery tokens from emails
+    const hash = location.hash;
+    const search = location.search;
+    
+    if (hash.includes('type=recovery') || search.includes('type=recovery')) {
+      navigate('/login?type=recovery' + (hash ? `&${hash.substring(1)}` : ''));
+    }
+  }, [location, navigate]);
+
+  return null;
 };
 
-function App() {
+const ScrollHandler = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location]);
+
+  return null;
+};
+
+const AppContent = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [currentPage, setCurrentPage] = useState('home');
-  const [showPreloader, setShowPreloader] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      const search = window.location.search;
+  return (
+    <div className="app-container">
+      <AuthCallbackHandler />
+      <ScrollHandler />
       
-      // Instantly intercept Supabase recovery tokens from emails before anything else
-      // DO NOT OVERWRITE THE HASH here, or Supabase Auth will lose the access_token before parsing it!
-      if (hash.includes('type=recovery') || search.includes('type=recovery')) {
-        setCurrentPage('login');
-        return;
-      }
+      <Suspense fallback={<Preloader onFinish={() => {}} />}>
+        <Routes>
+          {/* Routes WITH Navbar and Footer */}
+          <Route element={<MainLayout scrolled={scrolled} />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+          </Route>
 
-      if (hash === '#privacy') setCurrentPage('privacy');
-      else if (hash === '#terms') setCurrentPage('terms');
-      else if (hash === '#admin') setCurrentPage('admin');
-      else if (hash === '#login' || hash === '#signup' || hash === '#reset') setCurrentPage('login');
-      else if (hash === '#dashboard') setCurrentPage('dashboard');
-      else if (hash === '#links') setCurrentPage('links');
-      else {
-        setCurrentPage('home');
-        // Force scroll jump after React mounts the Home elements 
-        // to fix broken anchor links when navigating from other pages (e.g. Privacy -> #services)
-        if (['#services', '#about', '#how-it-works', '#projects', '#why', '#contact', '#home'].includes(hash)) {
-          setTimeout(() => {
-            const el = document.getElementById(hash === '#home' ? 'home' : hash.substring(1));
-            // Ensure we smoothly jump, catching misfires from the browser's native initial jump that occurs before page render
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }, 100); 
-        } else if (hash === '') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }
-    };
-    
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+          {/* Independent Routes */}
+          <Route path="/login" element={<UserAuth />} />
+          
+          <Route path="/links" element={
+            <ErrorBoundary>
+              <SocialLinksPage />
+            </ErrorBoundary>
+          } />
+
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<UserDashboard />} />
+          </Route>
+          
+          <Route element={<ProtectedRoute requiredRole="admin" />}>
+            <Route path="/admin" element={<AdminPanel />} />
+          </Route>
+          
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </Suspense>
+    </div>
+  );
+};
+
+function App() {
+  const [showPreloader, setShowPreloader] = useState(true);
 
   return (
-    <AuthProvider>
-      <WorksProvider>
-        {showPreloader ? (
-          <Preloader onFinish={() => setShowPreloader(false)} />
-        ) : (
-          <AppContent scrolled={scrolled} currentPage={currentPage} />
-        )}
-      </WorksProvider>
-    </AuthProvider>
+    <Router>
+      <AuthProvider>
+        <WorksProvider>
+          {showPreloader ? (
+            <Preloader onFinish={() => setShowPreloader(false)} />
+          ) : (
+            <AppContent />
+          )}
+        </WorksProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

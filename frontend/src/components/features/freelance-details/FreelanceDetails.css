@@ -1,0 +1,58 @@
+/* FreelanceDetails.css */
+.freelance-details-section {
+  padding: 120px 24px;
+  background-color: var(--color-bg-page);
+}
+
+.details-header {
+  margin-bottom: 4rem;
+  max-width: 800px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+}
+
+.detail-card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  padding: 2.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: border-color 0.3s ease;
+}
+
+.detail-card:hover {
+  border-color: var(--color-border-strong);
+}
+
+.detail-icon {
+  color: var(--color-text-primary);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 8px;
+  background-color: var(--color-bg-elevated);
+}
+
+.detail-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.detail-desc {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}

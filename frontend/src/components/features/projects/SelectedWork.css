@@ -1,0 +1,174 @@
+.selected-work {
+  background-color: var(--color-bg-surface);
+}
+
+.selected-work .section-header {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 700px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 40px;
+}
+
+.project-card {
+  background-color: var(--color-bg-page);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer; /* Suggests interactivity */
+  outline: none;
+  transform-style: preserve-3d;
+}
+
+.project-card:focus-visible {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 2px var(--color-accent-soft);
+}
+
+/* Browser Frame */
+.project-browser-bar {
+  height: 36px;
+  background-color: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+}
+
+.browser-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.browser-controls span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-border-strong);
+}
+
+.browser-url-bar {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  background: var(--color-bg-page);
+  padding: 4px 12px;
+  border-radius: 4px;
+  flex-grow: 1;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+/* Project Content */
+.project-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.project-category {
+  font-size: var(--text-xs);
+  color: var(--color-accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.project-name {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 24px;
+  transition: color 0.3s ease;
+}
+
+/* Inspection Details (Always visible) */
+.project-inspection-details {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+}
+
+.inspection-step {
+  padding-bottom: 16px;
+}
+
+.inspection-step:last-child {
+  padding-bottom: 0;
+}
+
+.inspection-step h4 {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.inspection-step p {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Footer */
+.project-footer {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px dashed var(--color-border-strong);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  background: var(--color-bg-elevated);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.project-link-btn {
+  padding: 0.5rem 1rem;
+  font-size: var(--text-xs);
+}
+
+/* Active State Styling enhancements */
+.project-card:hover, .project-card.active, .project-card:focus-visible {
+  border-color: var(--color-text-muted);
+  box-shadow: var(--shadow-medium);
+}
+.project-card.active .browser-url-bar {
+  color: var(--color-text-primary);
+}
+.project-card.active .project-name {
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  .project-content {
+    padding: 24px;
+  }
+}

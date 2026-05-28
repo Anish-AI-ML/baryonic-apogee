@@ -16,7 +16,9 @@
     "lucide-react": "^0.577.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-qr-code": "^2.0.21"
+    "react-qr-code": "^2.0.21",
+    "react-router-dom": "^7.15.1",
+    "react-router-hash-link": "^2.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

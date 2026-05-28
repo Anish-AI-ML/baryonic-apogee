@@ -1,87 +1,101 @@
-import { Code2 } from 'lucide-react';
-import { useLanguage } from '../../context/LanguageContext';
+import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import Logo from '../common/Logo';
 import './Footer.css';
 
 const Footer = () => {
-  const { t, setLanguage } = useLanguage();
-
   return (
     <footer className="footer-section">
       <div className="container footer-container">
-        <div className="footer-top">
+        
+        {/* 1. Footer CTA Band */}
+        <div className="footer-cta-band">
+          <div className="footer-cta-content">
+            <h2 className="footer-cta-headline">Need a website that looks serious from the first visit?</h2>
+            <p className="footer-cta-subtext">Share what you want to build. I'll reply with the clearest next step.</p>
+          </div>
+          <div className="footer-cta-actions">
+            <HashLink smooth to="/#contact" className="btn btn-white footer-primary-btn">Start a Project</HashLink>
+            <HashLink smooth to="/#work" className="btn btn-black footer-secondary-btn">View Work</HashLink>
+          </div>
+        </div>
 
-          <div className="footer-brand">
-            <a href="#home" className="footer-logo" style={{ textDecoration: 'none', display: 'block' }}>
-              <Logo style={{ height: '36px', width: 'auto' }} />
-            </a>
-            <p className="footer-desc">
-              {t('footer.desc')}
+        {/* 2. Main Footer Links */}
+        <div className="footer-main">
+          
+          {/* Brand & Proof Summary */}
+          <div className="footer-brand-column">
+            <HashLink smooth to="/#home" className="footer-logo" aria-label="Go to homepage">
+              <Logo style={{ height: '32px', width: 'auto' }} />
+            </HashLink>
+            <p className="footer-brand-desc">
+              I design and build responsive websites, landing pages, MVP frontends, and business web experiences with clean structure, clear CTAs, and careful mobile polish.
             </p>
           </div>
 
-          <div className="footer-links-group">
-            <div className="footer-column">
-              <h4>{t('footer.navTitle')}</h4>
+          <div className="footer-links-grid">
+            {/* Build Navigation */}
+            <div className="footer-col">
+              <h4>Build</h4>
               <ul>
-                <li><a href="#home">{t('footer.links.home')}</a></li>
-                <li><a href="#services">{t('nav.services')}</a></li>
-                <li><a href="#about">{t('nav.about')}</a></li>
-                <li><a href="#how-it-works">{t('nav.howItWorks')}</a></li>
+                <li><HashLink smooth to="/#work">Work</HashLink></li>
+                <li><HashLink smooth to="/#services">Services</HashLink></li>
+                <li><HashLink smooth to="/#standards">Standards</HashLink></li>
+                <li><HashLink smooth to="/#process">Process</HashLink></li>
+                <li><HashLink smooth to="/#contact">Contact</HashLink></li>
               </ul>
             </div>
-            <div className="footer-column">
-              <h4>{t('footer.moreTitle')}</h4>
+
+            {/* Proof & Real Work */}
+            <div className="footer-col">
+              <h4>Proof</h4>
               <ul>
-                <li><a href="#projects">{t('nav.projects')}</a></li>
-                <li><a href="#why">{t('nav.features')}</a></li>
-                <li><a href="#contact">{t('nav.contact')}</a></li>
+                <li><a href="https://ic3dcm.in" target="_blank" rel="noreferrer" className="real-project-link">ic3dcm.in ↗</a></li>
+                <li><a href="https://ssmds.in" target="_blank" rel="noreferrer" className="real-project-link">ssmds.in ↗</a></li>
+                <li><a href="https://askit.in" target="_blank" rel="noreferrer" className="real-project-link">askit.in ↗</a></li>
+                <li><a href="https://iconscept.in" target="_blank" rel="noreferrer" className="real-project-link">iconscept.in ↗</a></li>
+                <li><a href="https://icoft.vercel.app" target="_blank" rel="noreferrer" className="real-project-link">icoft.vercel.app ↗</a></li>
+                <li><a href="https://vivefabrics.shop" target="_blank" rel="noreferrer" className="real-project-link">vivefabrics.shop ↗</a></li>
               </ul>
             </div>
-            <div className="footer-column">
-              <h4>{t('footer.companyTitle')}</h4>
+
+            {/* Contact */}
+            <div className="footer-col">
+              <h4>Contact</h4>
               <ul>
-                <li style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Anve tech </li>
-                <li style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Chennai, TN</li>
-                <li style={{ color: 'var(--text-muted)' }}>India</li>
+                <li><a href="mailto:anvetechnologies@gmail.com">Email Us</a></li>
+                <li><a href="#chat" onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-chatbot')); }}>Live Chat</a></li>
+                <li><a href="https://www.linkedin.com/in/anve-tech-938843407" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                <li><a href="https://www.instagram.com/anvetech" target="_blank" rel="noreferrer">Instagram</a></li>
               </ul>
             </div>
-            <div className="footer-column">
-              <h4>{t('footer.supportTitle')}</h4>
+
+            {/* Legal */}
+            <div className="footer-col">
+              <h4>Legal</h4>
               <ul>
-                <li><a href="#chat" onClick={(e) => { e.preventDefault(); window.dispatchEvent(new Event('open-chatbot')); }}>{t('footer.links.liveChat')}</a></li>
-                <li><a href="mailto:anvetechnologies@gmail.com">{t('footer.links.emailUs')}</a></li>
-              </ul>
-            </div>
-            <div className="footer-column">
-              <h4>{t('footer.legalTitle')}</h4>
-              <ul>
-                <li><a href="#privacy">{t('footer.links.privacy')}</a></li>
-                <li><a href="#terms">{t('footer.links.terms')}</a></li>
-              </ul>
-            </div>
-            <div className="footer-column">
-              <h4>{t('footer.followUsTitle')}</h4>
-              <ul>
-                <li><a href="https://www.facebook.com/share/1TZoQTjctJ/" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-                <li><a href="https://www.linkedin.com/in/anve-tech-938843407?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="https://www.instagram.com/anvetech?igsh=YTlpdmRrYW1xMnJm" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                <li style={{ marginTop: '0.5rem' }}><a href="#links" style={{ color: 'var(--primary-color)' }}>All Links & QR Code</a></li>
-              </ul>
-            </div>
-            <div className="footer-column">
-              <h4>{t('footer.langTitle')}</h4>
-              <ul>
-                <li><a href="#en" onClick={(e) => { e.preventDefault(); setLanguage('en'); }}>English</a></li>
-                <li><a href="#ta" onClick={(e) => { e.preventDefault(); setLanguage('ta'); }}>Tamil (தமிழ்)</a></li>
-                <li><a href="#hi" onClick={(e) => { e.preventDefault(); setLanguage('hi'); }}>Hindi (हिंदी)</a></li>
+                <li><Link to="/privacy">Privacy Policy</Link></li>
+                <li><Link to="/terms">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
         </div>
 
+        {/* 3. Bottom Bar */}
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Anve tech Inc. {t('footer.copyright')}</p>
+          <div className="footer-bottom-left">
+            <span>&copy; {new Date().getFullYear()} Anve tech Inc.</span>
+            <span className="footer-dot">•</span>
+            <span>Chennai, India</span>
+          </div>
+          
+          <div className="footer-bottom-right">
+            <span className="footer-availability">
+              <span className="status-dot"></span> Available for selected projects
+            </span>
+            <span className="footer-dot">•</span>
+            <span className="footer-build-note">Designed and built with React</span>
+          </div>
         </div>
       </div>
     </footer>

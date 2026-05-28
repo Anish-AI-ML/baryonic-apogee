@@ -9,6 +9,19 @@
   <title>Anve tech | Modern Digital solutions</title>
   <meta name="description"
     content="Anve tech specializes in modern websites, smart billing systems, and high-performance frontend solutions for scaling startups." />
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('theme');
+        if (!theme) {
+          theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
 </head>
 
 <body>

@@ -10,20 +10,20 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
+  box-shadow: var(--shadow-glow);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .chatbot-toggle-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 15px 40px rgba(236, 72, 153, 0.6);
+  box-shadow: 0 15px 40px var(--color-accent-glow);
 }
 
 .chatbot-window {
@@ -32,12 +32,12 @@
   right: 0;
   width: 350px;
   height: 500px;
-  background: rgba(10, 10, 10, 0.85);
+  background: var(--color-bg-overlay);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-medium);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -46,8 +46,8 @@
 
 .chatbot-header {
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,7 +63,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,13 +73,13 @@
 .chatbot-header h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: white;
+  color: var(--color-text-primary);
   margin: 0;
 }
 
 .chatbot-status {
   font-size: 0.8rem;
-  color: #10b981;
+  color: var(--color-success);
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -88,21 +88,21 @@
 .status-dot {
   width: 6px;
   height: 6px;
-  background: #10b981;
+  background: var(--color-success);
   border-radius: 50%;
-  box-shadow: 0 0 10px #10b981;
+  box-shadow: 0 0 10px var(--color-success);
 }
 
 .chatbot-close-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .chatbot-close-btn:hover {
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .chatbot-messages {
@@ -124,7 +124,7 @@
 }
 
 .chatbot-messages::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--color-border-strong);
   border-radius: 10px;
 }
 
@@ -144,51 +144,55 @@
 
 .message-ai {
   align-self: flex-start;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
   border-bottom-left-radius: 4px;
 }
 
 .message-user {
   align-self: flex-end;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
   color: white;
   border-bottom-right-radius: 4px;
-  box-shadow: 0 5px 15px rgba(236, 72, 153, 0.2);
+  box-shadow: 0 5px 15px var(--color-accent-glow);
 }
 
 .chatbot-input-container {
   padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--color-border-subtle);
   display: flex;
   gap: 0.5rem;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--color-bg-surface);
 }
 
 .chatbot-input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: 20px;
   padding: 0.75rem 1rem;
-  color: white;
+  color: var(--input-text);
   font-family: inherit;
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s;
 }
 
+.chatbot-input::placeholder {
+  color: var(--input-placeholder);
+}
+
 .chatbot-input:focus {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--color-accent-primary);
 }
 
 .chatbot-send-btn {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: white;
-  color: black;
+  background: var(--btn-white-bg);
+  color: var(--btn-white-text);
   border: none;
   display: flex;
   align-items: center;
@@ -199,7 +203,7 @@
 
 .chatbot-send-btn:hover {
   transform: scale(1.1);
-  background: #f9f9f9;
+  background: var(--btn-white-hover-bg);
 }
 
 .chatbot-send-btn:disabled {
@@ -220,15 +224,15 @@
   position: absolute;
   bottom: 80px;
   right: 0;
-  background: rgba(10, 10, 10, 0.95);
+  background: var(--color-bg-elevated);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-primary);
   padding: 0.75rem 1rem;
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 500;
-  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
+  box-shadow: var(--shadow-medium);
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -244,16 +248,16 @@
   right: 24px;
   width: 12px;
   height: 12px;
-  background: rgba(10, 10, 10, 0.95);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-elevated);
+  border-right: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
   transform: rotate(45deg);
 }
 
 .tooltip-close {
   background: none;
   border: none;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -263,7 +267,7 @@
 }
 
 .tooltip-close:hover {
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .typing-indicator {
@@ -276,7 +280,7 @@
 .typing-indicator span {
   width: 6px;
   height: 6px;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: var(--color-text-muted);
   border-radius: 50%;
   display: inline-block;
   animation: typingBounce 1.4s infinite ease-in-out both;
