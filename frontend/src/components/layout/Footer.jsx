@@ -1,3 +1,4 @@
+0
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import Logo from '../common/Logo';
@@ -7,7 +8,7 @@ const Footer = () => {
   return (
     <footer className="footer-section">
       <div className="container footer-container">
-        
+
         {/* 1. Footer CTA Band */}
         <div className="footer-cta-band">
           <div className="footer-cta-content">
@@ -22,7 +23,7 @@ const Footer = () => {
 
         {/* 2. Main Footer Links */}
         <div className="footer-main">
-          
+
           {/* Brand & Proof Summary */}
           <div className="footer-brand-column">
             <HashLink smooth to="/#home" className="footer-logo" aria-label="Go to homepage">
@@ -88,7 +89,7 @@ const Footer = () => {
             <span className="footer-dot">•</span>
             <span>Chennai, India</span>
           </div>
-          
+
           <div className="footer-bottom-right">
             <span className="footer-availability">
               <span className="status-dot"></span> Available for selected projects
