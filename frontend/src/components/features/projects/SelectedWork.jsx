@@ -72,15 +72,15 @@ const ProjectCard = ({ project, isActive, setActiveProjectId }) => {
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     // Calculate rotation (-3 to 3 degrees based on pointer position)
     const maxRotate = 3;
     const rotateX = ((y - centerY) / centerY) * -maxRotate;
     const rotateY = ((x - centerX) / centerX) * maxRotate;
-    
+
     cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px) scale3d(1.01, 1.01, 1.01)`;
     cardRef.current.style.transition = 'transform 0.1s ease';
   };
@@ -100,7 +100,7 @@ const ProjectCard = ({ project, isActive, setActiveProjectId }) => {
   };
 
   return (
-    <article 
+    <article
       ref={cardRef}
       className={`project-card ${isActive ? 'active' : ''}`}
       onMouseMove={handleMouseMove}
@@ -143,15 +143,15 @@ const ProjectCard = ({ project, isActive, setActiveProjectId }) => {
           <div className="project-tags font-mono">
             {project.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}
           </div>
-          <a 
-            href={project.url} 
-            target="_blank" 
-            rel="noreferrer" 
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noreferrer"
             className="btn btn-black project-link-btn"
             onClick={(e) => e.stopPropagation()}
           >
             View live
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginLeft: '6px'}}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '6px' }}>
               <line x1="7" y1="17" x2="17" y2="7"></line>
               <polyline points="7 7 17 7 17 17"></polyline>
             </svg>
@@ -175,11 +175,11 @@ const SelectedWork = () => {
 
         <div className="projects-grid">
           {PROJECTS.map((project) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
-              isActive={activeProjectId === project.id} 
-              setActiveProjectId={setActiveProjectId} 
+            <ProjectCard
+              key={project.id}
+              project={project}
+              isActive={activeProjectId === project.id}
+              setActiveProjectId={setActiveProjectId}
             />
           ))}
         </div>
@@ -189,3 +189,5 @@ const SelectedWork = () => {
 };
 
 export default SelectedWork;
+
+

@@ -23,7 +23,7 @@ export const LanguageProvider = ({ children }) => {
   const t = (path) => {
     const keys = path.split('.');
     let value = translations[language];
-    
+
     for (const key of keys) {
       if (value && value[key] !== undefined) {
         value = value[key];
@@ -48,3 +48,5 @@ export const useLanguage = () => {
   }
   return context;
 };
+
+

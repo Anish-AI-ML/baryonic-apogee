@@ -12,8 +12,10 @@
   display: flex;
   justify-content: center;
   transition: padding 0.3s ease;
-  pointer-events: none; /* Let clicks pass through empty space */
+  pointer-events: none;
+  /* Let clicks pass through empty space */
 }
+
 
 .command-bar-wrapper.scrolled {
   padding: 16px 20px;
@@ -25,11 +27,13 @@
   justify-content: space-between;
   width: 100%;
   max-width: 1440px;
-  pointer-events: none; /* Let clicks pass through empty space between pills */
+  pointer-events: none;
+  /* Let clicks pass through empty space between pills */
 }
 
 .command-pill {
-  pointer-events: auto; /* Re-enable clicks on the pills */
+  pointer-events: auto;
+  /* Re-enable clicks on the pills */
   display: flex;
   align-items: center;
   height: 56px;
@@ -129,7 +133,8 @@
   outline: none;
 }
 
-.cmd-link:hover, .cmd-link:focus-visible {
+.cmd-link:hover,
+.cmd-link:focus-visible {
   color: var(--color-text-primary);
 }
 
@@ -148,7 +153,8 @@
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
 }
 
-.cmd-link.active::after, .cmd-link:hover::after {
+.cmd-link.active::after,
+.cmd-link:hover::after {
   transform: translateX(-50%) scale(1);
   opacity: 1;
 }
@@ -187,7 +193,8 @@
   outline: none;
 }
 
-.cmd-icon-btn:hover, .cmd-icon-btn:focus-visible {
+.cmd-icon-btn:hover,
+.cmd-icon-btn:focus-visible {
   color: var(--color-text-primary);
   background: var(--color-bg-surface);
   border-color: var(--color-border-subtle);
@@ -210,7 +217,8 @@
   outline: none;
 }
 
-.cmd-link-secondary:hover, .cmd-link-secondary:focus-visible {
+.cmd-link-secondary:hover,
+.cmd-link-secondary:focus-visible {
   color: var(--color-text-primary);
 }
 
@@ -264,7 +272,8 @@
 .cmd-mobile-menu {
   pointer-events: auto;
   position: absolute;
-  top: 72px; /* Just below the command bar */
+  top: 72px;
+  /* Just below the command bar */
   left: 20px;
   right: 20px;
   background-color: var(--color-bg-elevated);
@@ -283,7 +292,8 @@
   }
 }
 
-.cmd-mobile-nav-items, .cmd-mobile-footer-actions {
+.cmd-mobile-nav-items,
+.cmd-mobile-footer-actions {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -312,7 +322,8 @@
   cursor: pointer;
 }
 
-.mobile-cmd-link:hover, .mobile-cmd-link:focus-visible {
+.mobile-cmd-link:hover,
+.mobile-cmd-link:focus-visible {
   color: var(--color-text-primary);
 }
 
