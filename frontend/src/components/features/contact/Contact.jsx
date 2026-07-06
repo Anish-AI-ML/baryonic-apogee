@@ -53,7 +53,7 @@ const Contact = () => {
               </div>
               <div className="expectation-item">
                 <span className="font-mono label-muted">03 / Direct Contact</span>
-                <p>Prefer email? Reach out directly at <a href="mailto:hello@yourdomain.com" className="direct-email font-mono">hello@yourdomain.com</a></p>
+                <p>Prefer email? Reach out directly at <a href="mailto:anvetechnologies@gmail.com" className="direct-email font-mono">anvetechnologies@gmail.com</a></p>
               </div>
             </div>
           </div>
