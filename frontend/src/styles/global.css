@@ -74,6 +74,34 @@
 }
 
 [data-theme='light'] {
+  --color-bg-page: #f7f7f0;
+  --color-bg-surface: #edf0e7;
+  --color-bg-elevated: #e7eddb;
+  --color-bg-overlay: rgba(247, 247, 240, .93);
+  --color-text-primary: #183a32;
+  --color-text-secondary: #40594e;
+  --color-text-muted: #718077;
+  --color-text-inverse: #f7f7f0;
+  --color-border-subtle: rgba(24, 58, 50, .11);
+  --color-border-strong: rgba(24, 58, 50, .2);
+  --color-accent-primary: #86a64e;
+  --color-accent-secondary: #6e8e4e;
+  --color-accent-soft: rgba(134, 166, 78, .12);
+  --color-accent-glow: rgba(134, 166, 78, .2);
+  --nav-bg: rgba(247, 247, 240, .91);
+  --card-bg: #fbfcf7;
+  --modal-bg: #f7f7f0;
+  --chatbot-bg: #fbfcf7;
+  --btn-white-bg: #183a32;
+  --btn-white-text: #fff;
+  --btn-white-hover-bg: #27564a;
+  --btn-black-bg: #edf0e7;
+  --btn-black-text: #183a32;
+  --btn-black-border: rgba(24, 58, 50, .15);
+  --btn-black-hover-bg: #e2e9d9;
+}
+
+[data-theme='light'] {
   /* Restorative Sophisticated Neutrals */
   --color-bg-page: #F9F9F6;          
   --color-bg-surface: #FFFFFF;       
@@ -222,6 +250,69 @@ a {
     padding: 0 1.5rem;
   }
 }
+
+/* Anve Studio refresh: shared interface palette and typography */
+:root {
+  --font-sans: 'DM Sans', Inter, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --nav-height: 76px;
+  --color-bg-page: #f7f7f0;
+  --color-bg-surface: #edf0e7;
+  --color-bg-elevated: #e7eddb;
+  --color-bg-overlay: rgba(247, 247, 240, .93);
+  --color-text-primary: #183a32;
+  --color-text-secondary: #40594e;
+  --color-text-muted: #718077;
+  --color-text-inverse: #f7f7f0;
+  --color-border-subtle: rgba(24, 58, 50, .11);
+  --color-border-strong: rgba(24, 58, 50, .2);
+  --color-accent-primary: #86a64e;
+  --color-accent-secondary: #6e8e4e;
+  --color-accent-soft: rgba(134, 166, 78, .12);
+  --color-accent-glow: rgba(134, 166, 78, .2);
+  --nav-bg: rgba(247, 247, 240, .91);
+  --card-bg: #fbfcf7;
+  --modal-bg: #f7f7f0;
+  --chatbot-bg: #fbfcf7;
+  --btn-white-bg: #183a32;
+  --btn-white-text: #fff;
+  --btn-white-hover-bg: #27564a;
+  --btn-black-bg: #edf0e7;
+  --btn-black-text: #183a32;
+  --btn-black-border: rgba(24, 58, 50, .15);
+  --btn-black-hover-bg: #e2e9d9;
+}
+
+[data-theme='dark'] {
+  --color-bg-page: #142b26;
+  --color-bg-surface: #1b3730;
+  --color-bg-elevated: #23443a;
+  --color-bg-overlay: rgba(20, 43, 38, .94);
+  --color-text-primary: #f0f2e9;
+  --color-text-secondary: #d0d9ce;
+  --color-text-muted: #9eafa2;
+  --color-text-inverse: #142b26;
+  --color-border-subtle: rgba(240, 242, 233, .11);
+  --color-border-strong: rgba(240, 242, 233, .2);
+  --color-accent-primary: #c4df77;
+  --color-accent-secondary: #9bbd72;
+  --color-accent-soft: rgba(196, 223, 119, .13);
+  --color-accent-glow: rgba(196, 223, 119, .2);
+  --nav-bg: rgba(20, 43, 38, .94);
+  --card-bg: #1b3730;
+  --modal-bg: #1b3730;
+  --chatbot-bg: #1b3730;
+  --btn-white-bg: #c4df77;
+  --btn-white-text: #142b26;
+  --btn-white-hover-bg: #d2eb8a;
+  --btn-black-bg: #23443a;
+  --btn-black-text: #f0f2e9;
+  --btn-black-border: rgba(240, 242, 233, .16);
+  --btn-black-hover-bg: #2b5144;
+}
+
+html { font-family: var(--font-sans); }
+.container { max-width: 1280px; }
 
 /* Base Buttons */
 .btn {

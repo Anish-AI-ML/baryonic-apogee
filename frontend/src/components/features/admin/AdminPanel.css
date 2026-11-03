@@ -22,6 +22,19 @@
   box-shadow: 0 20px 40px rgba(0,0,0,0.5);
 }
 
+.admin-login-password {
+  width: 100%;
+  padding: .85rem 1rem;
+  border-radius: 8px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  font: inherit;
+  box-sizing: border-box;
+}
+.admin-login-password::placeholder { color: var(--input-placeholder); }
+.admin-login-password:focus-visible { outline: 2px solid var(--color-accent-primary); outline-offset: 2px; }
+
 .login-header {
   display: flex;
   flex-direction: column;

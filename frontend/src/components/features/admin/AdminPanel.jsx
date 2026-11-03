@@ -96,11 +96,11 @@ const AdminPanel = () => {
             <div className="form-group" style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
               <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#d1d5db' }}>Administrator Password</label>
               <input
+                className="admin-login-password"
                 type="password"
                 placeholder="Enter password..."
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }}
                 required
               />
             </div>

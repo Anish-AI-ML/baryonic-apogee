@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LogIn, UserPlus, Mail, Lock, User, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import { supabase } from '../../../services/supabaseClient';
+import { useNavigate } from 'react-router-dom';
 import './UserAuth.css';
 
 const UserAuth = () => {
@@ -15,6 +16,7 @@ const UserAuth = () => {
   const [error, setError] = useState('');
   const [cooldown, setCooldown] = useState(0);
   const { login, signup, resetPassword, updatePassword } = useAuth();
+  const navigate = useNavigate();
   
   const isResetHash = window.location.hash.includes('reset') || window.location.hash.includes('type=recovery') || window.location.search.includes('type=recovery');
 
@@ -47,7 +49,7 @@ const UserAuth = () => {
       if (isResetHash) {
         await updatePassword(formData.password.trim());
         setSuccessMsg('Password updated successfully! Redirecting...');
-        setTimeout(() => window.location.hash = '#dashboard', 2000);
+        setTimeout(() => navigate('/dashboard', { replace: true }), 2000);
       } else if (isForgotPassword) {
         if (cooldown > 0) return;
         
@@ -92,12 +94,12 @@ const UserAuth = () => {
 
         const data = await login(email, password);
         if (data?.user) {
-          window.location.hash = '#dashboard';
+          navigate('/dashboard', { replace: true });
         }
       } else {
         const result = await signup(formData);
         if (result && result.status === 'logged_in') {
-          window.location.hash = '#dashboard';
+          navigate('/dashboard', { replace: true });
         } else {
           setIsVerifying(true);
         }
@@ -182,7 +184,7 @@ const UserAuth = () => {
               )}
             </AnimatePresence>
 
-            <div className="form-group" style={{ display: isResetHash ? 'none' : 'block' }}>
+            <div className="form-group" style={{ display: isResetHash ? 'none' : 'flex' }}>
               <label><Mail size={16} /> Email Address</label>
               <input
                 type="email"
@@ -224,7 +226,7 @@ const UserAuth = () => {
 
           <div className="auth-footer">
             {isResetHash ? (
-               <p><button onClick={() => window.location.hash = '#login'}>Back to Login</button></p>
+               <p><button onClick={() => navigate('/login', { replace: true })}>Back to Login</button></p>
             ) : isForgotPassword ? (
                <p><button onClick={() => { setIsForgotPassword(false); setError(''); setSuccessMsg(''); }}>Back to Login</button></p>
             ) : isLogin ? (

@@ -21,7 +21,7 @@ const getInitialTheme = () => {
     console.warn('matchMedia is not accessible:', e);
   }
 
-  return 'dark'; // default fallback
+  return 'light'; // default fallback
 };
 
 export const ThemeProvider = ({ children }) => {

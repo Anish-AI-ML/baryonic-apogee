@@ -4,10 +4,6 @@ import { MessageSquare, X, Send, Sparkles } from 'lucide-react';
 import { useLanguage } from '../../../context/LanguageContext';
 import './Chatbot.css';
 
-const SYSTEM_PROMPT = `You are the Elite AI Sales Representative for Anve Tech, a premium modern digital solutions and web development studio. 
-Your goal is to beautifully and concisely assist clients, answer questions about web services, build high-end rapport, and guide them to use our contact form or email anvetechnologies@gmail.com for accurate project quotes. 
-Keep your responses professional, friendly, and fairly short (1-3 sentences when possible). Our core services include Custom Websites, full-stack eCommerce platforms, internal Billing Systems, modern Frontend solutions, and Digital Portfolios. Do not hallucinate physical locations or fake phone numbers. Ensure you highlight Anve Tech's premium quality, scalable architecture, and dedication to digital craftsmanship.`;
-
 const Chatbot = () => {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -65,31 +61,10 @@ const Chatbot = () => {
     setIsTyping(true);
 
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      if (!apiKey) {
-        throw new Error("Missing AI API Key. Please configure your .env file.");
-      }
-
-      // Format messages strictly for Gemini API (user / model)
-      // We skip the very first welcome message if it's just 'Hello' to save tokens, but keeping it is fine.
-      const apiContents = conversation.map(msg => ({
-        role: msg.role === 'ai' ? 'model' : 'user',
-        parts: [{ text: msg.text }]
-      }));
-
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: SYSTEM_PROMPT }]
-          },
-          contents: apiContents,
-          generationConfig: {
-            maxOutputTokens: 250,
-            temperature: 0.7,
-          }
-        })
+        body: JSON.stringify({ messages: conversation.map(({ role, text }) => ({ role, text })) })
       });
 
       if (!response.ok) {
@@ -97,7 +72,7 @@ const Chatbot = () => {
       }
 
       const data = await response.json();
-      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const aiText = data.text;
       
       if (aiText) {
         setMessages(prev => [...prev, { role: 'ai', text: aiText }]);

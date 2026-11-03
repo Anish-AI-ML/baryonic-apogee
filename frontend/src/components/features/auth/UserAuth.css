@@ -99,6 +99,9 @@
   background: var(--input-bg);
   border: 1px solid var(--input-border);
   padding: 1rem 1.25rem;
+  width: 100%;
+  min-height: 56px;
+  box-sizing: border-box;
   border-radius: 14px;
   color: var(--input-text);
   font-size: 1rem;

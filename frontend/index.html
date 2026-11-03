@@ -6,19 +6,20 @@
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="apple-touch-icon" href="/logo.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anve tech | Modern Digital solutions</title>
+  <meta name="theme-color" content="#f7f7f0" />
+  <title>Anve Tech — Thoughtful websites &amp; digital products</title>
   <meta name="description"
-    content="Anve tech specializes in modern websites, smart billing systems, and high-performance frontend solutions for scaling startups." />
+    content="Anve Tech is an independent digital studio designing and building thoughtful websites and digital products for people building something that matters." />
   <script>
     (function () {
       try {
         var theme = localStorage.getItem('theme');
         if (!theme) {
-          theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
         document.documentElement.setAttribute('data-theme', theme);
       } catch (e) {
-        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.setAttribute('data-theme', 'light');
       }
     })();
   </script>

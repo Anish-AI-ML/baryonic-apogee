@@ -1,48 +1,62 @@
-/* Home Page Layout */
-.home-page-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  overflow-x: hidden;
-}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
 
+.nova-home{--nv-ink:#183a32;--nv-muted:#64766e;--nv-paper:#f7f7f0;--nv-lime:#d9f278;--nv-line:#dfe4d9;--nv-serif:'DM Serif Display',Georgia,serif;background:var(--nv-paper);color:var(--nv-ink);font-family:'DM Sans',sans-serif;overflow:hidden}
+.nova-home *{box-sizing:border-box}.nova-shell{width:min(1200px,calc(100% - 96px));margin-inline:auto}.nova-hero{position:relative;min-height:770px;padding:164px 0 30px;background:var(--nv-paper)}
+.nova-hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;min-height:520px}.nova-eyebrow,.nova-kicker{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#557267}.nova-eyebrow{display:flex;align-items:center;gap:11px}.nova-status-dot{width:8px;height:8px;border-radius:50%;background:#b6d45d;box-shadow:0 0 0 4px #eaf1ce}.nova-eyebrow-rule{height:1px;width:24px;background:#b5c2b7;margin-left:4px}.nova-hero h1{font-family:var(--nv-serif);font-size:clamp(57px,6.4vw,87px);font-weight:400;line-height:.99;letter-spacing:-.04em;max-width:650px;margin:33px 0 24px}.nova-hero h1 em,.nova-contact h2 em,.nova-belief h2 em{color:#7c9d45;font-weight:400}.nova-hero-lede{font-size:17px;line-height:1.7;color:#64766e;max-width:475px}.nova-hero-actions{display:flex;align-items:center;gap:29px;margin-top:32px}.nova-button{border:0;display:inline-flex;align-items:center;justify-content:center;gap:24px;padding:15px 19px;font:600 13px 'DM Sans',sans-serif;cursor:pointer;transition:transform .2s,background .2s}.nova-button:hover{transform:translateY(-2px)}.nova-button-dark{background:var(--nv-ink);color:#fff}.nova-button-dark:hover{background:#27564a}.nova-text-link,.nova-inline-link{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600}.nova-text-link:hover,.nova-inline-link:hover{color:#7c9d45}.nova-hero-note{display:flex;align-items:center;gap:13px;margin-top:62px;color:#79877f;font-size:12px;line-height:1.6}.nova-hero-note strong{color:var(--nv-ink);font-weight:600}.nova-note-lines{font-size:25px;color:#9db365}.nova-hero-art{height:480px;position:relative;background:#e7eddb;overflow:hidden}.nova-art-grid{position:absolute;inset:0;background-image:linear-gradient(#657c6d12 1px,transparent 1px),linear-gradient(90deg,#657c6d12 1px,transparent 1px);background-size:38px 38px}.nova-art-orbit{position:absolute;border:1px solid #89a282;opacity:.65;border-radius:50%;transform:rotate(-28deg)}.nova-orbit-one{width:470px;height:240px;top:105px;left:20px}.nova-orbit-two{width:430px;height:180px;top:135px;left:42px;transform:rotate(42deg)}.nova-art-sun{position:absolute;width:230px;height:230px;left:calc(50% - 115px);top:105px;border-radius:50%;background:linear-gradient(135deg,#d9f278 0%,#afc86a 100%);box-shadow:0 30px 70px #78945040}.nova-art-card{position:absolute;background:#fafbf6;border:1px solid #fff;box-shadow:0 12px 35px #28403418}.nova-art-card-top{left:8%;top:52px;width:210px;padding:17px 18px;transform:rotate(-5deg);display:grid;grid-template-columns:1fr auto;gap:14px}.nova-art-card-top span,.nova-art-card-top small{font-size:8px;color:#708077;letter-spacing:.1em}.nova-art-card-top b{grid-column:1/3;font:20px var(--nv-serif);font-weight:400}.nova-art-card-top small{grid-column:1/3}.nova-art-card-top svg{color:#829c59}.nova-art-card-bottom{right:7%;bottom:67px;padding:14px 16px;display:flex;align-items:center;gap:12px;transform:rotate(4deg);font-size:10px;line-height:1.5}.nova-art-card-bottom strong{font-size:11px}.nova-art-card-bottom svg{margin-left:12px}.nova-art-swatch{height:33px;width:33px;background:#193c33;border-radius:50%}.nova-art-caption{position:absolute;left:24px;bottom:22px;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#617467}.nova-hero-bottom{display:flex;gap:22px;align-items:center;margin-top:35px;color:#839087;font-size:9px;letter-spacing:.1em;text-transform:uppercase}.nova-bottom-line{height:1px;background:#cdd7cb;flex:1}
+.nova-proof{border-block:1px solid var(--nv-line);padding:25px 0}.nova-proof-row{display:flex;align-items:center;justify-content:space-between;gap:28px}.nova-proof-label{color:#849087;text-transform:uppercase;letter-spacing:.11em;font-size:9px;font-weight:700}.nova-proof-logos{display:flex;align-items:center;gap:clamp(28px,6vw,78px);color:#63776a}.nova-proof-logos b{font-size:15px;letter-spacing:-.04em}.nova-proof-logos b:nth-child(2){font-size:18px}.nova-proof-logos b:nth-child(2) span{color:#92ad59}.nova-proof-logos i{font:italic 14px var(--nv-serif)}
+.nova-section{padding:120px 0}.nova-section-heading{display:flex;justify-content:space-between;align-items:end;gap:60px;margin-bottom:54px}.nova-kicker span{color:#90a95d}.nova-section-heading h2{font:400 clamp(42px,5vw,62px)/1.05 var(--nv-serif);letter-spacing:-.035em;margin-top:20px}.nova-section-heading>p{max-width:320px;color:var(--nv-muted);font-size:14px;line-height:1.75;padding-bottom:7px}.nova-project-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px 26px}.nova-project-large{grid-column:span 1}.nova-project-image{position:relative;height:250px;overflow:hidden;background:#e3e8dd}.nova-project-large .nova-project-image{height:330px}.nova-project-image img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1)}.nova-project:hover .nova-project-image img{transform:scale(1.035)}.nova-project-image-0{background:#d5e4dc}.nova-project-image-1{background:#e9dfd2}.nova-project-image-2{background:#d9e0e9}.nova-project-image-3{background:#e5e5d9}.nova-project-arrow{position:absolute;right:16px;top:16px;width:38px;height:38px;display:grid;place-items:center;background:#f8f8f1;color:var(--nv-ink);transition:transform .2s}.nova-project:hover .nova-project-arrow{transform:translate(2px,-2px)}.nova-project-meta{display:flex;justify-content:space-between;align-items:center;padding-top:15px}.nova-project-meta h3{font:400 23px var(--nv-serif)}.nova-project-meta span{font-size:11px;color:#819087}.nova-project-index{font-size:10px!important;letter-spacing:.1em}.nova-inline-link{margin-top:42px;border-bottom:1px solid #aebcae;padding-bottom:10px}
+.nova-services{background:#edf0e7}.nova-service-list{border-top:1px solid #d3ddcf}.nova-service{display:grid;grid-template-columns:48px 56px 1fr 24px;align-items:center;gap:20px;padding:27px 10px;border-bottom:1px solid #d3ddcf}.nova-service-number{font-size:10px;color:#85958a;letter-spacing:.12em}.nova-service-icon{width:44px;height:44px;display:grid;place-items:center;background:#e1e9d6;color:#57734c}.nova-service h3{font:400 22px var(--nv-serif);margin-bottom:6px}.nova-service p{font-size:12px;color:#728077;max-width:540px;line-height:1.65}.nova-service-arrow{color:#82945e}.nova-belief{background:var(--nv-ink);color:#f3f4ec;padding:105px 0}.nova-belief-grid{display:grid;grid-template-columns:1fr 2fr .5fr;gap:40px;align-items:start}.nova-belief .nova-kicker{color:#bfd092;padding-top:12px}.nova-belief h2{font:400 clamp(39px,5vw,60px)/1.08 var(--nv-serif);letter-spacing:-.025em;max-width:710px}.nova-belief h2 em{color:#c4df77}.nova-belief-grid>div>p{max-width:600px;color:#c4d0c7;font-size:14px;line-height:1.8;margin-top:22px}.nova-belief-points{display:flex;flex-wrap:wrap;gap:20px;margin-top:30px}.nova-belief-points span{display:flex;align-items:center;gap:7px;font-size:11px;color:#d8e1d6}.nova-belief-points svg{color:#c4df77}.nova-belief-mark{font:italic 100px var(--nv-serif);color:#315449;text-align:right}.nova-belief-mark span{color:#c4df77}
+.nova-steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--nv-line)}.nova-step{padding:25px 23px 10px 0}.nova-step>span{font-size:10px;letter-spacing:.12em;color:#819087}.nova-step h3{font:400 25px var(--nv-serif);margin:25px 0 10px}.nova-step p{font-size:12px;color:var(--nv-muted);line-height:1.7;max-width:225px}
+.nova-contact{position:relative;background:#e7eddc;padding:106px 0 112px;overflow:hidden}.nova-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;position:relative;z-index:1}.nova-contact h2{font:400 clamp(62px,8vw,95px)/.94 var(--nv-serif);letter-spacing:-.045em;margin:24px 0}.nova-contact-copy>p{font-size:14px;color:#64766e;max-width:360px;line-height:1.7}.nova-contact-email{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;border-bottom:1px solid #aab8a4;padding:0 0 8px;margin-top:28px}.nova-contact-location{display:flex;align-items:center;gap:9px;color:#78877e;font-size:11px;margin-top:47px}.nova-contact-form{display:flex;flex-direction:column;gap:23px;padding-top:7px}.nova-contact-form label{font-size:11px;font-weight:600;color:#52685c;display:flex;flex-direction:column;gap:9px}.nova-contact-form input,.nova-contact-form textarea{border:0;border-bottom:1px solid #bdcbb9;background:transparent;border-radius:0;padding:10px 0;color:var(--nv-ink);font:13px 'DM Sans',sans-serif;outline:none;resize:vertical}.nova-contact-form input:focus,.nova-contact-form textarea:focus{border-color:#78964a}.nova-contact-form input::placeholder,.nova-contact-form textarea::placeholder{color:#96a198}.nova-button-lime{align-self:flex-start;background:#d8f078;color:#213928;margin-top:3px}.nova-button-lime:hover{background:#c8e763}.nova-form-note{font-size:10px;color:#849087}.nova-contact-stamp{position:absolute;right:-4px;bottom:-42px;color:#d8e1cc;display:flex;align-items:center;gap:10px;transform:rotate(-9deg)}.nova-contact-stamp span{font:italic 66px var(--nv-serif)}.nova-contact-stamp small{font-size:8px;line-height:1.5;letter-spacing:.15em}
+@media(max-width:900px){.nova-shell{width:min(100% - 48px,700px)}.nova-hero{padding-top:135px}.nova-hero-grid{grid-template-columns:1fr;gap:46px}.nova-hero-copy{max-width:650px}.nova-hero-art{height:400px}.nova-hero{min-height:0;padding-bottom:36px}.nova-section{padding:86px 0}.nova-proof-row{align-items:flex-start;flex-direction:column}.nova-proof-logos{width:100%;justify-content:space-between;gap:15px}.nova-belief-grid{grid-template-columns:1fr 2fr}.nova-belief-mark{display:none}.nova-contact-grid{gap:55px}.nova-section-heading{gap:30px}}
+@media(max-width:600px){.nova-shell{width:calc(100% - 40px)}.nova-hero{padding-top:117px}.nova-eyebrow{font-size:9px;letter-spacing:.07em;gap:8px}.nova-hero h1{font-size:58px;margin-top:27px}.nova-hero-lede{font-size:15px}.nova-hero-actions{gap:18px;flex-wrap:wrap}.nova-hero-note{margin-top:38px}.nova-hero-art{height:330px}.nova-art-sun{width:180px;height:180px;left:calc(50% - 90px);top:86px}.nova-orbit-one{left:-45px}.nova-orbit-two{left:-35px}.nova-art-card-top{left:4%;top:30px;width:190px}.nova-art-card-bottom{right:3%;bottom:55px}.nova-proof-logos{flex-wrap:wrap;justify-content:flex-start;gap:15px 28px}.nova-section{padding:72px 0}.nova-section-heading{display:block;margin-bottom:36px}.nova-section-heading h2{font-size:47px}.nova-section-heading>p{margin-top:18px}.nova-project-grid{grid-template-columns:1fr;gap:31px}.nova-project-image,.nova-project-large .nova-project-image{height:245px}.nova-service{grid-template-columns:25px 42px 1fr 17px;gap:11px;padding:22px 0}.nova-service-icon{width:39px;height:39px}.nova-service h3{font-size:19px}.nova-service p{font-size:11px}.nova-belief{padding:74px 0}.nova-belief-grid{grid-template-columns:1fr;gap:20px}.nova-belief h2{font-size:43px}.nova-belief-points{flex-direction:column;gap:13px}.nova-steps{grid-template-columns:1fr 1fr;gap:26px 18px}.nova-step{padding-right:0}.nova-step h3{margin-top:18px;font-size:23px}.nova-contact{padding:75px 0 90px}.nova-contact-grid{grid-template-columns:1fr;gap:45px}.nova-contact h2{font-size:75px;margin:20px 0}.nova-contact-location{margin-top:30px}.nova-contact-stamp{right:-30px;bottom:-65px}.nova-contact-stamp span{font-size:48px}.nova-hero-bottom{margin-top:27px}}
+@media(prefers-reduced-motion:reduce){.nova-home *{scroll-behavior:auto!important;transition:none!important}}
 
-/* Premium Section Constraints */
-.premium-section {
-  padding: 140px 0;
-  position: relative;
-}
+[data-theme='dark'] .nova-home{--nv-ink:#f0f2e9;--nv-muted:#b5c3b8;--nv-paper:#142b26;--nv-line:rgba(240,242,233,.13);background:var(--nv-paper);color:var(--nv-ink)}
+[data-theme='dark'] .nova-eyebrow,[data-theme='dark'] .nova-kicker{color:#bfd092}
+[data-theme='dark'] .nova-hero-lede,[data-theme='dark'] .nova-section-heading>p,[data-theme='dark'] .nova-project-meta span,[data-theme='dark'] .nova-service p,[data-theme='dark'] .nova-step p,[data-theme='dark'] .nova-contact-copy>p{color:#b5c3b8}
+[data-theme='dark'] .nova-hero-note{color:#aebdb2}[data-theme='dark'] .nova-hero-note strong{color:#edf2e8}
+[data-theme='dark'] .nova-hero-art{background:#203c32}[data-theme='dark'] .nova-art-grid{background-image:linear-gradient(#c9d5bc12 1px,transparent 1px),linear-gradient(90deg,#c9d5bc12 1px,transparent 1px)}
+[data-theme='dark'] .nova-art-orbit{border-color:#9eb28d}[data-theme='dark'] .nova-art-card{background:#f5f6ef;color:#183a32}
+[data-theme='dark'] .nova-art-caption,[data-theme='dark'] .nova-hero-bottom{color:#bdcbbd}[data-theme='dark'] .nova-hero-bottom .nova-bottom-line{background:#53695e}
+[data-theme='dark'] .nova-proof{border-color:var(--nv-line)}[data-theme='dark'] .nova-proof-label{color:#aebdb2}[data-theme='dark'] .nova-proof-logos{color:#d0d9ce}
+[data-theme='dark'] .nova-services{background:#1b3730}[data-theme='dark'] .nova-service-list,[data-theme='dark'] .nova-service{border-color:var(--nv-line)}[data-theme='dark'] .nova-service-number,[data-theme='dark'] .nova-step>span{color:#a4b5a8}[data-theme='dark'] .nova-service-icon{background:#29483d;color:#c4df77}
+[data-theme='dark'] .nova-belief{background:#0e211d}[data-theme='dark'] .nova-contact{background:#203c32}[data-theme='dark'] .nova-contact-email{border-color:#637c6d}[data-theme='dark'] .nova-contact-location{color:#b5c3b8}
+[data-theme='dark'] .nova-contact-form label{color:#d4dfd5}[data-theme='dark'] .nova-contact-form input,[data-theme='dark'] .nova-contact-form textarea{color:#f0f2e9;border-color:#637c6d}[data-theme='dark'] .nova-contact-form input::placeholder,[data-theme='dark'] .nova-contact-form textarea::placeholder{color:#9caea1}[data-theme='dark'] .nova-form-note{color:#b5c3b8}
+[data-theme='dark'] .nova-contact-stamp{color:#304e42}
 
-.premium-section-alt {
-  background-color: var(--color-bg-surface);
-}
-
-.section-header {
-  margin-bottom: 80px;
-}
-
-.section-title {
-  font-size: var(--text-4xl);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  color: var(--color-text-primary);
-  margin-bottom: 1.5rem;
-  line-height: 1.1;
-}
-
-.section-subtitle {
-  font-size: var(--text-lg);
-  color: var(--color-text-muted);
-  max-width: 600px;
-  line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-  .premium-section {
-    padding: 80px 0;
-  }
-
-  .section-header {
-    margin-bottom: 48px;
-  }
-}
+/* Project imagery is a four-panel contact sheet, cropped to one topic per card. */
+.nova-project-image img{position:absolute;width:200%;height:200%;max-width:none;object-fit:fill;transition:filter .35s ease}
+.nova-project-image-0 img{left:0;top:0}.nova-project-image-1 img{left:-100%;top:0}.nova-project-image-2 img{left:0;top:-100%}.nova-project-image-3 img{left:-100%;top:-100%}
+.nova-project:hover .nova-project-image img{filter:saturate(1.08)}
+.nova-project-type{position:absolute;left:16px;bottom:16px;padding:8px 10px;background:rgba(248,248,241,.95);color:#183a32;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.nova-project-grid.reveal-ready .nova-project{opacity:0;transform:translateY(24px) scale(.985);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.75,.25,1)}
+.nova-project-grid.reveal-ready .nova-project.is-visible{opacity:1;transform:translateY(0) scale(1)}
+.nova-project-grid.reveal-ready .nova-project:nth-child(2){transition-delay:.12s}.nova-project-grid.reveal-ready .nova-project:nth-child(3){transition-delay:.24s}.nova-project-grid.reveal-ready .nova-project:nth-child(4){transition-delay:.36s}
+.nova-project-grid.reveal-ready .nova-project.is-visible:hover{transform:translateY(-4px) scale(1)}
+@media(prefers-reduced-motion:reduce){.nova-project-grid.reveal-ready .nova-project,.nova-project-grid.reveal-ready .nova-project.is-visible{opacity:1;transform:none;transition:none}}
+/* Keep every portfolio image frame at the same size. */
+.nova-project-image,.nova-project-large .nova-project-image{height:360px;aspect-ratio:4/3}
+@media(max-width:600px){.nova-project-image,.nova-project-large .nova-project-image{height:auto;aspect-ratio:4/3}}
+.nova-project-arrow{color:#183a32;background:#f8f8f1}
+.nova-contact-stamp{display:none}
+.nova-project-image-4 img{position:absolute;left:0;top:0;width:100%;height:100%;max-width:none;object-fit:cover}
+.nova-project-image-5 img{position:absolute;left:0;top:0;width:100%;height:100%;max-width:none;object-fit:cover}
+.nova-photo-stage img{left:0;top:0}.nova-photo-fabric img{left:-100%;top:0}.nova-photo-product img{left:0;top:-100%}.nova-photo-campus img{left:-100%;top:-100%}
+.nova-project-image.nova-photo-full img{width:100%;height:100%;left:0;top:0;object-fit:cover}
+.nova-project-grid.reveal-ready .nova-project:nth-child(5){transition-delay:.48s}.nova-project-grid.reveal-ready .nova-project:nth-child(6){transition-delay:.6s}
+.nova-see-more{margin-top:42px;display:inline-flex;align-items:center;gap:12px;padding:12px 0;border:0;border-bottom:1px solid #aebcae;background:transparent;color:var(--nv-ink);font:600 13px 'DM Sans',sans-serif;cursor:pointer;transition:gap .2s ease,color .2s ease}
+.nova-see-more:hover{gap:17px;color:#6d8e43}
+[data-theme='dark'] .nova-see-more{border-color:#687d70;color:#f0f2e9}
+.nova-project{transition:transform .25s ease}.nova-project:hover{transform:translateY(-4px)}.nova-project:hover .nova-project-image img{transform:scale(1.02)}
+.nova-contact-form input,.nova-contact-form textarea{transition:border-color .2s ease,box-shadow .2s ease}
+.nova-contact-form input:focus-visible,.nova-contact-form textarea:focus-visible{border-color:#436d51;box-shadow:0 2px 0 #436d51;outline:none}
+.nova-button-lime{background:#183a32;color:#fff}.nova-button-lime:hover{background:#27564a}
+[data-theme='dark'] .nova-button-lime{background:#d8f078;color:#183a32}[data-theme='dark'] .nova-button-lime:hover{background:#c8e763}
+.nova-hero .nova-button-dark{background:#183a32;color:#fff;transition:background .2s ease,color .2s ease,transform .2s ease}
+[data-theme='dark'] .nova-hero .nova-button-dark{background:#d8f078;color:#183a32}
+[data-theme='dark'] .nova-hero .nova-button-dark:hover{background:#c8e763}
+.nova-belief h2{color:#f3f4ec}
+@media(max-width:1100px) and (min-width:850px){.nav-pill,.actions-pill{display:none}.cmd-mobile-toggle{display:flex}}
+@media(min-width:768px) and (max-width:1100px){.footer-section .footer-main{flex-direction:column;gap:36px}.footer-brand-column{max-width:560px}.footer-links-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:none;width:100%;gap:30px 48px}}
+@media(max-width:767px){.footer-section{padding-bottom:100px}.footer-section .footer-bottom{padding-right:58px}.chatbot-wrapper{right:20px;bottom:22px}.chatbot-tooltip{max-width:calc(100vw - 40px);white-space:normal;right:0;font-size:.8rem}.chatbot-window{max-height:calc(100dvh - 115px)}}
